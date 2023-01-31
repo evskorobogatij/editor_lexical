@@ -13,6 +13,7 @@ import {
   LexicalEditor,
   SELECTION_CHANGE_COMMAND,
 } from "lexical";
+import { INSERT_ORDERED_LIST_COMMAND } from "@lexical/list";
 import { useCallback, useEffect, useRef, useState } from "react";
 import * as React from "react";
 import { createPortal } from "react-dom";
@@ -53,6 +54,10 @@ function TextFormatFloatingToolbar({
       editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
     }
   }, [editor, isLink]);
+
+  const insertNumberList = useCallback(() => {
+    editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
+  }, [editor]);
 
   const insertComment = () => {
     // editor.dispatchCommand(INSERT_INLINE_COMMAND, undefined);
@@ -201,6 +206,13 @@ function TextFormatFloatingToolbar({
             aria-label="Insert link"
           >
             <i className="format link" />
+          </button>
+          <button
+            onClick={insertNumberList}
+            className={"popup-item spaced "}
+            aria-label="Insert list"
+          >
+            <i className="format list" />
           </button>
         </>
       )}
