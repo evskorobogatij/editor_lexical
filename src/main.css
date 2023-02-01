@@ -1,0 +1,11 @@
+body {
+  background-color: #2f3136;
+  font-family: 'Manrope'
+}
+h1 {
+  color: #fff;
+  margin-left: 2rem;
+  font-size: 36px;
+  line-height: 36px;
+  font-weight: 800;
+}
