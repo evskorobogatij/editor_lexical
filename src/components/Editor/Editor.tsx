@@ -12,6 +12,7 @@ import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
 import FloatingTextFormatToolbarPlugin from "./plugins";
+import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
 
 import "./style.css";
 import { editorConfig } from "./config";
@@ -59,7 +60,7 @@ export function Editor() {
               />
             </>
           )}
-          {/* <AutoLinkPlugin />  */}
+          <AutoLinkPlugin />
           {/* <ListMaxIndentLevelPlugin maxDepth={7} /> */}
         </div>
       </div>
