@@ -10,6 +10,7 @@ import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 // import AutoLinkPlugin from "@lexical/react/LexicalAutoLinkPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
 import FloatingTextFormatToolbarPlugin from "./plugins";
 
 import "./style.css";
@@ -49,6 +50,7 @@ export function Editor() {
           <AutoFocusPlugin />
           {/* <CodeHighlightPlugin /> */}
           <ListPlugin />
+          <CheckListPlugin />
           <LinkPlugin />
           {floatingAnchorElem && (
             <>
