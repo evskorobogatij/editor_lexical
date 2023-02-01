@@ -13,7 +13,11 @@ import {
   LexicalEditor,
   SELECTION_CHANGE_COMMAND,
 } from "lexical";
-import { INSERT_ORDERED_LIST_COMMAND } from "@lexical/list";
+import {
+  INSERT_ORDERED_LIST_COMMAND,
+  INSERT_UNORDERED_LIST_COMMAND,
+  INSERT_CHECK_LIST_COMMAND,
+} from "@lexical/list";
 import { useCallback, useEffect, useRef, useState } from "react";
 import * as React from "react";
 import { createPortal } from "react-dom";
@@ -21,6 +25,14 @@ import { createPortal } from "react-dom";
 import { getDOMRangeRect } from "../utils/getDOMRangeRect";
 import { getSelectedNode } from "../utils/getSelectedNode";
 import { setFloatingElemPosition } from "../utils/setFloatingElemPosition";
+
+import { BoldIcon } from "../icons/Bold";
+import { ItalicIcon } from "../icons/Italic";
+import { UnderlineIcon } from "../icons/Underline";
+import { StrikethroughIcon } from "../icons/Strikethrough";
+import { NumberListIcon } from "../icons/NumberList";
+import { MarkedListIcon } from "../icons/MarkedList";
+import { CheckListIcon } from "../icons/CheckList";
 
 function TextFormatFloatingToolbar({
   editor,
@@ -57,6 +69,14 @@ function TextFormatFloatingToolbar({
 
   const insertNumberList = useCallback(() => {
     editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
+  }, [editor]);
+
+  const insertMarkedList = useCallback(() => {
+    editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
+  }, [editor]);
+
+  const insertCheckList = useCallback(() => {
+    editor.dispatchCommand(INSERT_CHECK_LIST_COMMAND, undefined);
   }, [editor]);
 
   const insertComment = () => {
@@ -142,7 +162,8 @@ function TextFormatFloatingToolbar({
             className={"popup-item spaced " + (isBold ? "active" : "")}
             aria-label="Format text as bold"
           >
-            <i className="format bold" />{" "}
+            {/* <i className="format bold" />{" "} */}
+            <BoldIcon />
           </button>
           <button
             onClick={() => {
@@ -151,7 +172,7 @@ function TextFormatFloatingToolbar({
             className={"popup-item spaced " + (isItalic ? "active" : "")}
             aria-label="Format text as italics"
           >
-            <i className="format italic" />
+            <ItalicIcon />
           </button>
           <button
             onClick={() => {
@@ -160,7 +181,7 @@ function TextFormatFloatingToolbar({
             className={"popup-item spaced " + (isUnderline ? "active" : "")}
             aria-label="Format text to underlined"
           >
-            <i className="format underline" />
+            <UnderlineIcon />
           </button>
           <button
             onClick={() => {
@@ -169,9 +190,9 @@ function TextFormatFloatingToolbar({
             className={"popup-item spaced " + (isStrikethrough ? "active" : "")}
             aria-label="Format text with a strikethrough"
           >
-            <i className="format strikethrough" />
+            <StrikethroughIcon />
           </button>
-          <button
+          {/* <button
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, "subscript");
             }}
@@ -190,8 +211,9 @@ function TextFormatFloatingToolbar({
             aria-label="Format Superscript"
           >
             <i className="format superscript" />
-          </button>
-          <button
+          </button> */}
+
+          {/* <button
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, "code");
             }}
@@ -199,30 +221,48 @@ function TextFormatFloatingToolbar({
             aria-label="Insert code block"
           >
             <i className="format code" />
-          </button>
-          <button
+          </button> */}
+
+          {/* <button
             onClick={insertLink}
             className={"popup-item spaced " + (isLink ? "active" : "")}
             aria-label="Insert link"
           >
             <i className="format link" />
-          </button>
+          </button> */}
+
           <button
             onClick={insertNumberList}
             className={"popup-item spaced "}
             aria-label="Insert list"
           >
-            <i className="format list" />
+            <NumberListIcon />
+          </button>
+
+          <button
+            onClick={insertMarkedList}
+            className={"popup-item spaced "}
+            aria-label="Insert bulled list"
+          >
+            <MarkedListIcon />
+          </button>
+
+          <button
+            onClick={insertCheckList}
+            className={"popup-item spaced "}
+            aria-label="Insert check list"
+          >
+            <CheckListIcon />
           </button>
         </>
       )}
-      <button
+      {/* <button
         onClick={insertComment}
         className={"popup-item spaced insert-comment"}
         aria-label="Insert comment"
       >
         <i className="format add-comment" />
-      </button>
+      </button> */}
     </div>
   );
 }
