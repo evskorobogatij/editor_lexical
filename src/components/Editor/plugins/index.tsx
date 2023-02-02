@@ -33,6 +33,7 @@ import { StrikethroughIcon } from "../icons/Strikethrough";
 import { NumberListIcon } from "../icons/NumberList";
 import { MarkedListIcon } from "../icons/MarkedList";
 import { CheckListIcon } from "../icons/CheckList";
+import { LinkIcon } from "../icons/LinkIcon";
 
 function TextFormatFloatingToolbar({
   editor,
@@ -253,6 +254,14 @@ function TextFormatFloatingToolbar({
             aria-label="Insert check list"
           >
             <CheckListIcon />
+          </button>
+
+          <button
+            onClick={insertLink}
+            className={"popup-item spaced "}
+            aria-label="Insert link"
+          >
+            <LinkIcon />
           </button>
         </>
       )}
