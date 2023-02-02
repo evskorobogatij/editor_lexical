@@ -3,9 +3,14 @@ import "./index.css";
 import { $isCodeHighlightNode } from "@lexical/code";
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { mergeRegister } from "@lexical/utils";
+import {
+  mergeRegister,
+  $findMatchingParent,
+  $getNearestNodeOfType,
+} from "@lexical/utils";
 import {
   $getSelection,
+  $isRootOrShadowRoot,
   $isRangeSelection,
   $isTextNode,
   COMMAND_PRIORITY_LOW,
@@ -17,6 +22,9 @@ import {
   INSERT_ORDERED_LIST_COMMAND,
   INSERT_UNORDERED_LIST_COMMAND,
   INSERT_CHECK_LIST_COMMAND,
+  REMOVE_LIST_COMMAND,
+  $isListNode,
+  ListNode,
 } from "@lexical/list";
 import { useCallback, useEffect, useRef, useState } from "react";
 import * as React from "react";
@@ -35,6 +43,8 @@ import { MarkedListIcon } from "../icons/MarkedList";
 import { CheckListIcon } from "../icons/CheckList";
 import { LinkIcon } from "../icons/LinkIcon";
 
+type ListType = "number" | "bullet" | "check";
+
 function TextFormatFloatingToolbar({
   editor,
   anchorElem,
@@ -46,6 +56,8 @@ function TextFormatFloatingToolbar({
   isStrikethrough,
   isSubscript,
   isSuperscript,
+  isList,
+  listType,
 }: {
   editor: LexicalEditor;
   anchorElem: HTMLElement;
@@ -57,6 +69,8 @@ function TextFormatFloatingToolbar({
   isSubscript: boolean;
   isSuperscript: boolean;
   isUnderline: boolean;
+  isList: boolean;
+  listType: ListType | undefined;
 }): JSX.Element {
   const popupCharStylesEditorRef = useRef<HTMLDivElement | null>(null);
 
@@ -69,16 +83,22 @@ function TextFormatFloatingToolbar({
   }, [editor, isLink]);
 
   const insertNumberList = useCallback(() => {
-    editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
-  }, [editor]);
+    if (listType !== "number")
+      editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
+    else editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
+  }, [editor, listType]);
 
   const insertMarkedList = useCallback(() => {
-    editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
-  }, [editor]);
+    if (listType !== "bullet")
+      editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
+    else editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
+  }, [editor, listType]);
 
   const insertCheckList = useCallback(() => {
-    editor.dispatchCommand(INSERT_CHECK_LIST_COMMAND, undefined);
-  }, [editor]);
+    if (listType !== "check")
+      editor.dispatchCommand(INSERT_CHECK_LIST_COMMAND, undefined);
+    else editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
+  }, [editor, listType]);
 
   const insertComment = () => {
     // editor.dispatchCommand(INSERT_INLINE_COMMAND, undefined);
@@ -234,7 +254,10 @@ function TextFormatFloatingToolbar({
 
           <button
             onClick={insertNumberList}
-            className={"popup-item spaced "}
+            className={
+              "popup-item spaced " +
+              (isList && listType === "number" ? "active" : "")
+            }
             aria-label="Insert list"
           >
             <NumberListIcon />
@@ -242,7 +265,10 @@ function TextFormatFloatingToolbar({
 
           <button
             onClick={insertMarkedList}
-            className={"popup-item spaced "}
+            className={
+              "popup-item spaced " +
+              (isList && listType === "bullet" ? "active" : "")
+            }
             aria-label="Insert bulled list"
           >
             <MarkedListIcon />
@@ -250,7 +276,10 @@ function TextFormatFloatingToolbar({
 
           <button
             onClick={insertCheckList}
-            className={"popup-item spaced "}
+            className={
+              "popup-item spaced " +
+              (isList && listType === "check" ? "active" : "")
+            }
             aria-label="Insert check list"
           >
             <CheckListIcon />
@@ -290,6 +319,9 @@ function useFloatingTextFormatToolbar(
   const [isSuperscript, setIsSuperscript] = useState(false);
   const [isCode, setIsCode] = useState(false);
 
+  const [isList, setIsList] = useState(false);
+  const [listType, setListType] = useState<ListType | undefined>(undefined);
+
   const updatePopup = useCallback(() => {
     editor.getEditorState().read(() => {
       // Should not to pop up the floating toolbar when using IME input
@@ -316,6 +348,21 @@ function useFloatingTextFormatToolbar(
 
       const node = getSelectedNode(selection);
 
+      const anchorNode = selection.anchor.getNode();
+      let element =
+        anchorNode.getKey() === "root"
+          ? anchorNode
+          : $findMatchingParent(anchorNode, (e) => {
+              const parent = e.getParent();
+              return parent !== null && $isRootOrShadowRoot(parent);
+            });
+
+      if (element === null) {
+        element = anchorNode.getTopLevelElementOrThrow();
+      }
+
+      const elementKey = element.getKey();
+
       // Update text format
       setIsBold(selection.hasFormat("bold"));
       setIsItalic(selection.hasFormat("italic"));
@@ -331,6 +378,25 @@ function useFloatingTextFormatToolbar(
         setIsLink(true);
       } else {
         setIsLink(false);
+      }
+
+      //lists
+      // console.log("NODE IS ", node.getType(), parent?.getType());
+
+      if ($isListNode(element)) {
+        setIsList(true);
+        const parentList = $getNearestNodeOfType<ListNode>(
+          anchorNode,
+          ListNode
+        );
+        const type = parentList
+          ? parentList.getListType()
+          : element.getListType();
+        console.log(type);
+        setListType(type);
+      } else {
+        setIsList(false);
+        setListType(undefined);
       }
 
       if (
@@ -380,6 +446,8 @@ function useFloatingTextFormatToolbar(
       isSuperscript={isSuperscript}
       isUnderline={isUnderline}
       isCode={isCode}
+      isList={isList}
+      listType={listType}
     />,
     anchorElem
   );
