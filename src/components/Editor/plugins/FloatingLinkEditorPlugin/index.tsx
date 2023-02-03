@@ -1,8 +1,12 @@
-import './index.css';
+import "./index.css";
 
-import {$isAutoLinkNode, $isLinkNode, TOGGLE_LINK_COMMAND} from '@lexical/link';
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {$findMatchingParent, mergeRegister} from '@lexical/utils';
+import {
+  $isAutoLinkNode,
+  $isLinkNode,
+  TOGGLE_LINK_COMMAND,
+} from "@lexical/link";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { $findMatchingParent, mergeRegister } from "@lexical/utils";
 import {
   $getSelection,
   $isRangeSelection,
@@ -15,15 +19,16 @@ import {
   NodeSelection,
   RangeSelection,
   SELECTION_CHANGE_COMMAND,
-} from 'lexical';
-import {Dispatch, useCallback, useEffect, useRef, useState} from 'react';
-import * as React from 'react';
-import {createPortal} from 'react-dom';
+} from "lexical";
+import { Dispatch, useCallback, useEffect, useRef, useState } from "react";
+import * as React from "react";
+import { createPortal } from "react-dom";
 
 // import LinkPreview from '../../ui/LinkPreview';
-import {getSelectedNode} from '../../utils/getSelectedNode';
-import {setFloatingElemPosition} from '../../utils/setFloatingElemPosition';
-import {sanitizeUrl} from '../../utils/url';
+import { getSelectedNode } from "../../utils/getSelectedNode";
+import { setFloatingElemPosition } from "../../utils/setFloatingElemPosition";
+import { sanitizeUrl } from "../../utils/url";
+import { LinkEditIcon } from "../../icons/LinkEditIcon";
 
 function FloatingLinkEditor({
   editor,
@@ -38,7 +43,8 @@ function FloatingLinkEditor({
 }): JSX.Element {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [linkUrl, setLinkUrl] = useState('');
+  const [linkUrl, setLinkUrl] = useState("");
+  const [existText, setExistText] = useState("");
   const [isEditMode, setEditMode] = useState(false);
   const [lastSelection, setLastSelection] = useState<
     RangeSelection | GridSelection | NodeSelection | null
@@ -48,13 +54,15 @@ function FloatingLinkEditor({
     const selection = $getSelection();
     if ($isRangeSelection(selection)) {
       const node = getSelectedNode(selection);
+      setExistText(node.getTextContent());
+
       const parent = node.getParent();
       if ($isLinkNode(parent)) {
         setLinkUrl(parent.getURL());
       } else if ($isLinkNode(node)) {
         setLinkUrl(node.getURL());
       } else {
-        setLinkUrl('');
+        setLinkUrl("");
       }
     }
     const editorElem = editorRef.current;
@@ -88,13 +96,13 @@ function FloatingLinkEditor({
 
       setFloatingElemPosition(rect, editorElem, anchorElem);
       setLastSelection(selection);
-    } else if (!activeElement || activeElement.className !== 'link-input') {
+    } else if (!activeElement || activeElement.className !== "link-input") {
       if (rootElement !== null) {
         setFloatingElemPosition(null, editorElem, anchorElem);
       }
       setLastSelection(null);
       setEditMode(false);
-      setLinkUrl('');
+      setLinkUrl("");
     }
 
     return true;
@@ -109,24 +117,24 @@ function FloatingLinkEditor({
       });
     };
 
-    window.addEventListener('resize', update);
+    window.addEventListener("resize", update);
 
     if (scrollerElem) {
-      scrollerElem.addEventListener('scroll', update);
+      scrollerElem.addEventListener("scroll", update);
     }
 
     return () => {
-      window.removeEventListener('resize', update);
+      window.removeEventListener("resize", update);
 
       if (scrollerElem) {
-        scrollerElem.removeEventListener('scroll', update);
+        scrollerElem.removeEventListener("scroll", update);
       }
     };
   }, [anchorElem.parentElement, editor, updateLinkEditor]);
 
   useEffect(() => {
     return mergeRegister(
-      editor.registerUpdateListener(({editorState}) => {
+      editor.registerUpdateListener(({ editorState }) => {
         editorState.read(() => {
           updateLinkEditor();
         });
@@ -138,7 +146,7 @@ function FloatingLinkEditor({
           updateLinkEditor();
           return true;
         },
-        COMMAND_PRIORITY_LOW,
+        COMMAND_PRIORITY_LOW
       ),
       editor.registerCommand(
         KEY_ESCAPE_COMMAND,
@@ -149,8 +157,8 @@ function FloatingLinkEditor({
           }
           return false;
         },
-        COMMAND_PRIORITY_HIGH,
-      ),
+        COMMAND_PRIORITY_HIGH
+      )
     );
   }, [editor, updateLinkEditor, setIsLink, isLink]);
 
@@ -166,48 +174,69 @@ function FloatingLinkEditor({
     }
   }, [isEditMode]);
 
+  const handleEditMode = () => {
+    setEditMode(true);
+  };
+
+  const handleReadMode = () => {
+    setEditMode(false);
+  };
+
+  const handleTrySave = () => {
+    if (lastSelection !== null) {
+      if (linkUrl !== "") {
+        editor.dispatchCommand(TOGGLE_LINK_COMMAND, sanitizeUrl(linkUrl));
+      }
+    }
+
+    setEditMode(false);
+  };
+
   return (
     <div ref={editorRef} className="link-editor">
       {isEditMode ? (
-        <input
-          ref={inputRef}
-          className="link-input"
-          value={linkUrl}
-          onChange={(event) => {
-            setLinkUrl(event.target.value);
-          }}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter' || event.key === 'Escape') {
-              event.preventDefault();
-              if (lastSelection !== null) {
-                if (linkUrl !== '') {
-                  editor.dispatchCommand(
-                    TOGGLE_LINK_COMMAND,
-                    sanitizeUrl(linkUrl),
-                  );
-                }
-                setEditMode(false);
-              }
-            }
-          }}
-        />
-      ) : (
         <>
-          <div className="link-input">
-            <a href={linkUrl} target="_blank" rel="noopener noreferrer">
-              {linkUrl}
-            </a>
+          <input
+            className={"input"}
+            placeholder={"Название"}
+            defaultValue={existText}
+          />
+          <input
+            ref={inputRef}
+            className={"input"}
+            placeholder={"Ссылка"}
+            value={linkUrl}
+            onChange={(e) => {
+              setLinkUrl(e.target.value);
+            }}
+          />
+          <div className="action-button-group">
+            <button className="action-button" onClick={handleTrySave}>
+              Сохранить
+            </button>
+            <button
+              className={"action-button btn-default"}
+              onClick={handleReadMode}
+            >
+              Отмена
+            </button>
+          </div>
+        </>
+      ) : (
+
+        <>
+          <div className="link-header">
+            <div className="title">{linkUrl}</div>
             <div
-              className="link-edit"
-              role="button"
+              role={"button"}
+              className="edit-btn"
               tabIndex={0}
               onMouseDown={(event) => event.preventDefault()}
-              onClick={() => {
-                setEditMode(true);
-              }}
-            />
+              onClick={handleEditMode}
+            >
+              <LinkEditIcon />
+            </div>
           </div>
-          {/* <LinkPreview url={linkUrl} /> */}
         </>
       )}
     </div>
@@ -216,7 +245,7 @@ function FloatingLinkEditor({
 
 function useFloatingLinkEditorToolbar(
   editor: LexicalEditor,
-  anchorElem: HTMLElement,
+  anchorElem: HTMLElement
 ): JSX.Element | null {
   const [activeEditor, setActiveEditor] = useState(editor);
   const [isLink, setIsLink] = useState(false);
@@ -245,7 +274,7 @@ function useFloatingLinkEditorToolbar(
         setActiveEditor(newEditor);
         return false;
       },
-      COMMAND_PRIORITY_CRITICAL,
+      COMMAND_PRIORITY_CRITICAL
     );
   }, [editor, updateToolbar]);
 
@@ -257,7 +286,7 @@ function useFloatingLinkEditorToolbar(
           anchorElem={anchorElem}
           setIsLink={setIsLink}
         />,
-        anchorElem,
+        anchorElem
       )
     : null;
 }

@@ -3,14 +3,18 @@
   top: 0;
   left: 0;
   z-index: 10;
-  max-width: 400px;
+  max-width: 250px;
   width: 100%;
   opacity: 0;
-  background-color: #fff;
+  background-color: #2f3136;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
   border-radius: 8px;
   transition: opacity 0.5s;
   will-change: transform;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .link-editor .button {
@@ -23,18 +27,64 @@
   margin: 0 2px;
 }
 
-.link-editor .button.hovered {
-  width: 20px;
-  height: 20px;
-  display: inline-block;
-  background-color: #eee;
+.link-editor > .link-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.link-editor .button i,
-.actions i {
-  background-size: contain;
-  display: inline-block;
-  height: 20px;
-  width: 20px;
-  vertical-align: -0.25em;
+.link-header > .title {
+  flex: 1;
+}
+
+.link-header > .edit-btn {
+  width: 32px;
+  cursor: pointer;
+}
+
+.link-editor > .link-input {
+  background-color: #36393f;
+  font-size: 14px;
+  font-weight: 400;
+  color: #dbdcdd;
+}
+
+.link-editor > .input {
+  width: calc(100% - 12px);
+  height: 32px;
+  background-color: #36393f;
+  font-size: 14px;
+  font-weight: 400;
+  color: #dbdcdd;
+  border: none;
+  padding-left: 12px;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.link-editor > .action-button-group {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.action-button-group .action-button {
+  cursor: pointer;
+  background-color: #fbc333;
+  height: 40px;
+  border-radius: 8px;
+  border: none;
+  flex-grow: 1;
+  color: #2f3136;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 600;
+  font-family: "Manrope";
+}
+
+.action-button-group .btn-default {
+  background: #36393f;
+  color: #ffffff;
 }
