@@ -15,6 +15,7 @@ import {
   $isTextNode,
   COMMAND_PRIORITY_LOW,
   FORMAT_TEXT_COMMAND,
+  FORMAT_ELEMENT_COMMAND,
   LexicalEditor,
   SELECTION_CHANGE_COMMAND,
 } from "lexical";
@@ -43,6 +44,9 @@ import { MarkedListIcon } from "../icons/MarkedList";
 import { CheckListIcon } from "../icons/CheckList";
 import { LinkIcon } from "../icons/LinkIcon";
 import { Devider } from "../../Divider";
+import { AlignLeftIcon } from "../icons/AlignLeft";
+import { AlignCenterIcon } from "../icons/AlignCenter";
+import { AlignRightIcon } from "../icons/AlignRight";
 
 type ListType = "number" | "bullet" | "check";
 
@@ -100,6 +104,18 @@ function TextFormatFloatingToolbar({
       editor.dispatchCommand(INSERT_CHECK_LIST_COMMAND, undefined);
     else editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
   }, [editor, listType]);
+
+  const formatTextLeftAlign = useCallback(() => {
+    editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
+  }, [editor]);
+
+  const formatTextCenterAlign = useCallback(() => {
+    editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
+  }, [editor]);
+
+  const formatTextRightAlign = useCallback(() => {
+    editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
+  }, [editor]);
 
   const insertComment = () => {
     // editor.dispatchCommand(INSERT_INLINE_COMMAND, undefined);
@@ -289,6 +305,32 @@ function TextFormatFloatingToolbar({
           </button>
 
           <Devider />
+
+          <button
+            onClick={formatTextLeftAlign}
+            className={"popup-item spaced"}
+            aria-label="left align"
+          >
+            <AlignLeftIcon />
+          </button>
+
+          <button
+            onClick={formatTextCenterAlign}
+            className={"popup-item spaced"}
+            aria-label="center align"
+          >
+            <AlignCenterIcon />
+          </button>
+
+          <button
+            onClick={formatTextRightAlign}
+            className={"popup-item spaced"}
+            aria-label="right align"
+          >
+            <AlignRightIcon />
+          </button>
+
+          <Devider />
           <button
             onClick={insertLink}
             className={"popup-item spaced "}
@@ -385,7 +427,7 @@ function useFloatingTextFormatToolbar(
       }
 
       //lists
-      // console.log("NODE IS ", node.getType(), parent?.getType());
+      console.log("NODE IS ", node.getType(), parent?.getType());
 
       if ($isListNode(element)) {
         setIsList(true);
