@@ -42,6 +42,7 @@ import { NumberListIcon } from "../icons/NumberList";
 import { MarkedListIcon } from "../icons/MarkedList";
 import { CheckListIcon } from "../icons/CheckList";
 import { LinkIcon } from "../icons/LinkIcon";
+import { Devider } from "../../Divider";
 
 type ListType = "number" | "bullet" | "check";
 
@@ -213,6 +214,8 @@ function TextFormatFloatingToolbar({
           >
             <StrikethroughIcon />
           </button>
+
+          <Devider />
           {/* <button
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, "subscript");
@@ -285,6 +288,7 @@ function TextFormatFloatingToolbar({
             <CheckListIcon />
           </button>
 
+          <Devider />
           <button
             onClick={insertLink}
             className={"popup-item spaced "}
