@@ -17,6 +17,7 @@ import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
 import "./style.css";
 import { editorConfig } from "./config";
 import { useState } from "react";
+import FloatingLinkEditorPlugin from "./plugins/FloatingLinkEditorPlugin";
 
 function Placeholder() {
   return <div className="editor-placeholder">Введите текст...</div>;
@@ -58,6 +59,7 @@ export function Editor() {
               <FloatingTextFormatToolbarPlugin
                 anchorElem={floatingAnchorElem}
               />
+              <FloatingLinkEditorPlugin anchorElem={floatingAnchorElem} />
             </>
           )}
           <AutoLinkPlugin />
