@@ -231,11 +231,27 @@
   margin: 0;
   margin-left: 20px;
   font-size: 15px;
-  color: rgb(101, 103, 107);
-  border-left-color: rgb(206, 208, 212);
+  color: white;
+  border-left-color: #fb7575;
   border-left-width: 4px;
   border-left-style: solid;
   padding-left: 16px;
+}
+
+.editor-quote-red {
+  border-left-color: #fb7575;
+}
+
+.editor-quote-green {
+  border-left-color: #74e092;
+}
+
+.editor-quote-blue {
+    border-left-color: #87C2FB;
+}
+
+.editor-quote-yellow {
+    border-left-color: #FFD45C;
 }
 
 .editor-list-ol {
@@ -254,7 +270,6 @@
   margin: 8px 32px 8px 32px;
 }
 
-
 .editor-listitem-checked,
 .editor-listitem-unchecked {
   position: relative;
@@ -270,7 +285,7 @@
 }
 .editor-listitem-unchecked:before,
 .editor-listitem-checked:before {
-  content: '';
+  content: "";
   width: 16px;
   height: 16px;
   top: 2px;
@@ -280,8 +295,8 @@
   background-size: cover;
   position: absolute;
 }
-.editor-listitem-unchecked[dir='rtl']:before,
-.editor-listitem-checked[dir='rtl']:before {
+.editor-listitem-unchecked[dir="rtl"]:before,
+.editor-listitem-checked[dir="rtl"]:before {
   left: auto;
   right: 0;
 }
@@ -301,7 +316,7 @@
   background-repeat: no-repeat;
 }
 .editor-listitem-checked:after {
-  content: '';
+  content: "";
   cursor: pointer;
   border-color: #fff;
   border-style: solid;
@@ -315,7 +330,6 @@
   transform: rotate(45deg);
   border-width: 0 2px 2px 0;
 }
-
 
 .editor-nested-listitem {
   list-style-type: none;

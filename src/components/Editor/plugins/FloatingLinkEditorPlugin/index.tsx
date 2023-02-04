@@ -19,7 +19,9 @@ import {
   NodeSelection,
   RangeSelection,
   SELECTION_CHANGE_COMMAND,
+  CONTROLLED_TEXT_INSERTION_COMMAND,
 } from "lexical";
+
 import { Dispatch, useCallback, useEffect, useRef, useState } from "react";
 import * as React from "react";
 import { createPortal } from "react-dom";
@@ -223,7 +225,6 @@ function FloatingLinkEditor({
           </div>
         </>
       ) : (
-
         <>
           <div className="link-header">
             <div className="title">{linkUrl}</div>

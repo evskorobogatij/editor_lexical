@@ -27,6 +27,8 @@ import {
   $isListNode,
   ListNode,
 } from "@lexical/list";
+import { $createQuoteNode } from "@lexical/rich-text";
+import { $setBlocksType_experimental } from "@lexical/selection";
 import { useCallback, useEffect, useRef, useState } from "react";
 import * as React from "react";
 import { createPortal } from "react-dom";
@@ -47,6 +49,7 @@ import { Devider } from "../../Divider";
 import { AlignLeftIcon } from "../icons/AlignLeft";
 import { AlignCenterIcon } from "../icons/AlignCenter";
 import { AlignRightIcon } from "../icons/AlignRight";
+import { BannerIcon } from "../icons/Banner";
 
 type ListType = "number" | "bullet" | "check";
 
@@ -116,6 +119,20 @@ function TextFormatFloatingToolbar({
   const formatTextRightAlign = useCallback(() => {
     editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
   }, [editor]);
+
+  const formatSimpleBanner = () => {
+    // if (blockType !== 'quote') {
+    editor.update(() => {
+      const selection = $getSelection();
+      if (
+        $isRangeSelection(selection)
+        //  ||        DEPRECATED_$isGridSelection(selection)
+      ) {
+        $setBlocksType_experimental(selection, () => $createQuoteNode());
+      }
+    });
+    // }
+  };
 
   const insertComment = () => {
     // editor.dispatchCommand(INSERT_INLINE_COMMAND, undefined);
@@ -337,6 +354,14 @@ function TextFormatFloatingToolbar({
             aria-label="Insert link"
           >
             <LinkIcon />
+          </button>
+
+          <button
+            onClick={formatSimpleBanner}
+            className={"popup-item spaced"}
+            aria-label="Insert banner"
+          >
+            <BannerIcon />
           </button>
         </>
       )}
