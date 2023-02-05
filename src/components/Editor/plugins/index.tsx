@@ -28,7 +28,7 @@ import {
   ListNode,
 } from "@lexical/list";
 import { $wrapNodes } from "@lexical/selection";
-import { $createHeadingNode, $createQuoteNode } from "@lexical/rich-text";
+import { $createHeadingNode, $createQuoteNode, $isHeadingNode } from "@lexical/rich-text";
 import { $setBlocksType_experimental } from "@lexical/selection";
 import { useCallback, useEffect, useRef, useState } from "react";
 import * as React from "react";
@@ -446,6 +446,8 @@ function useFloatingTextFormatToolbar(
   const [isList, setIsList] = useState(false);
   const [listType, setListType] = useState<ListType | undefined>(undefined);
 
+  const [blockType, setBlockType] = useState<string>('')
+
   const updatePopup = useCallback(() => {
     editor.getEditorState().read(() => {
       // Should not to pop up the floating toolbar when using IME input
@@ -506,6 +508,11 @@ function useFloatingTextFormatToolbar(
 
       //lists
       console.log("NODE IS ", node.getType(), parent?.getType());
+
+      const type = $isHeadingNode(element)
+            ? element.getTag()
+            : element.getType();
+      console.log(type)      
 
       if ($isListNode(element)) {
         setIsList(true);
