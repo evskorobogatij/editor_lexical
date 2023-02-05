@@ -27,7 +27,8 @@ import {
   $isListNode,
   ListNode,
 } from "@lexical/list";
-import { $createQuoteNode } from "@lexical/rich-text";
+import { $wrapNodes } from "@lexical/selection";
+import { $createHeadingNode, $createQuoteNode } from "@lexical/rich-text";
 import { $setBlocksType_experimental } from "@lexical/selection";
 import { useCallback, useEffect, useRef, useState } from "react";
 import * as React from "react";
@@ -50,6 +51,9 @@ import { AlignLeftIcon } from "../icons/AlignLeft";
 import { AlignCenterIcon } from "../icons/AlignCenter";
 import { AlignRightIcon } from "../icons/AlignRight";
 import { BannerIcon } from "../icons/Banner";
+import { H1Icon } from "../icons/H1Icon";
+import { H2Icon } from "../icons/H2Icon";
+import { H3Icon } from "../icons/H3Icon";
 
 type ListType = "number" | "bullet" | "check";
 
@@ -134,6 +138,33 @@ function TextFormatFloatingToolbar({
     // }
   };
 
+  const formatH1Header = () => {
+    editor.update(() => {
+      const selection = $getSelection();
+      if ($isRangeSelection(selection)) {
+        $wrapNodes(selection, () => $createHeadingNode("h1"));
+      }
+    });
+  };
+
+  const formatH2Header = () => {
+    editor.update(() => {
+      const selection = $getSelection();
+      if ($isRangeSelection(selection)) {
+        $wrapNodes(selection, () => $createHeadingNode("h2"));
+      }
+    });
+  };
+
+  const formatH3Header = () => {
+    editor.update(() => {
+      const selection = $getSelection();
+      if ($isRangeSelection(selection)) {
+        $wrapNodes(selection, () => $createHeadingNode("h3"));
+      }
+    });
+  };
+
   const insertComment = () => {
     // editor.dispatchCommand(INSERT_INLINE_COMMAND, undefined);
   };
@@ -210,6 +241,28 @@ function TextFormatFloatingToolbar({
     <div ref={popupCharStylesEditorRef} className="floating-text-format-popup">
       {editor.isEditable() && (
         <>
+          <button
+            onClick={formatH1Header}
+            className={"popup-item spaced "}
+            aria-label="Format text H1"
+          >
+            <H1Icon />
+          </button>
+          <button
+            onClick={formatH2Header}
+            className={"popup-item spaced "}
+            aria-label="Format text H2"
+          >
+            <H2Icon />
+          </button>
+          <button
+            onClick={formatH3Header}
+            className={"popup-item spaced "}
+            aria-label="Format text H2"
+          >
+            <H3Icon />
+          </button>
+          <Devider />
           <button
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
