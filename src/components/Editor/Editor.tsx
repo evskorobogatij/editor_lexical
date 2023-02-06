@@ -12,7 +12,7 @@ import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
 import ComponentPickerPlugin from "./plugins/ComponentPickerPlugin";
-import FloatingTextFormatToolbarPlugin from "./plugins";
+import FloatingTextFormatToolbarPlugin from "./plugins/FloatingTextFormatToolbarPlugin";
 import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
 
 import "./style.css";

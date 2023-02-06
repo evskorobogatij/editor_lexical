@@ -258,7 +258,7 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
       }),
       new ComponentPickerOption("Банер", {
         icon: <BannerIcon />,
-        keywords: ["Банер"],
+        keywords: ["Банер", "baner"],
         onSelect: () =>
           editor.update(() => {
             const selection = $getSelection();

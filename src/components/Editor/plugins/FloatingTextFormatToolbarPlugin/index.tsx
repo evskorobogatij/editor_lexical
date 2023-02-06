@@ -34,26 +34,26 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import * as React from "react";
 import { createPortal } from "react-dom";
 
-import { getDOMRangeRect } from "../utils/getDOMRangeRect";
-import { getSelectedNode } from "../utils/getSelectedNode";
-import { setFloatingElemPosition } from "../utils/setFloatingElemPosition";
+import { getDOMRangeRect } from "../../utils/getDOMRangeRect";
+import { getSelectedNode } from "../../utils/getSelectedNode";
+import { setFloatingElemPosition } from "../../utils/setFloatingElemPosition";
 
-import { BoldIcon } from "../icons/Bold";
-import { ItalicIcon } from "../icons/Italic";
-import { UnderlineIcon } from "../icons/Underline";
-import { StrikethroughIcon } from "../icons/Strikethrough";
-import { NumberListIcon } from "../icons/NumberList";
-import { MarkedListIcon } from "../icons/MarkedList";
-import { CheckListIcon } from "../icons/CheckList";
-import { LinkIcon } from "../icons/LinkIcon";
-import { Devider } from "../../Divider";
-import { AlignLeftIcon } from "../icons/AlignLeft";
-import { AlignCenterIcon } from "../icons/AlignCenter";
-import { AlignRightIcon } from "../icons/AlignRight";
-import { BannerIcon } from "../icons/Banner";
-import { H1Icon } from "../icons/H1Icon";
-import { H2Icon } from "../icons/H2Icon";
-import { H3Icon } from "../icons/H3Icon";
+import { BoldIcon } from "../../icons/Bold";
+import { ItalicIcon } from "../../icons/Italic";
+import { UnderlineIcon } from "../../icons/Underline";
+import { StrikethroughIcon } from "../../icons/Strikethrough";
+import { NumberListIcon } from "../../icons/NumberList";
+import { MarkedListIcon } from "../../icons/MarkedList";
+import { CheckListIcon } from "../../icons/CheckList";
+import { LinkIcon } from "../../icons/LinkIcon";
+import { Devider } from "../../../Divider";
+import { AlignLeftIcon } from "../../icons/AlignLeft";
+import { AlignCenterIcon } from "../../icons/AlignCenter";
+import { AlignRightIcon } from "../../icons/AlignRight";
+import { BannerIcon } from "../../icons/Banner";
+import { H1Icon } from "../../icons/H1Icon";
+import { H2Icon } from "../../icons/H2Icon";
+import { H3Icon } from "../../icons/H3Icon";
 
 type ListType = "number" | "bullet" | "check";
 
