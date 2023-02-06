@@ -60,9 +60,9 @@
 .editor-inner {
   /* background: #fff; */
   position: relative;
-  border-color: white;
-  border-width: 1px;
-  border-style: solid;
+  /* border-color: white; */
+  /* border-width: 1px; */
+  border-style: none;
   color: white;
   font-family: "Manrope";
   font-weight: 400;

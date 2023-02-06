@@ -21,7 +21,7 @@ import { useState } from "react";
 import FloatingLinkEditorPlugin from "./plugins/FloatingLinkEditorPlugin";
 
 function Placeholder() {
-  return <div className="editor-placeholder">Введите текст...</div>;
+  return <div className="editor-placeholder">Введите текст (ПОДСКАЗКА: Нажмите / )</div>;
 }
 
 export function Editor() {
