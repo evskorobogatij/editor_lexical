@@ -1,4 +1,3 @@
-import { $createCodeNode } from "@lexical/code";
 import {
   INSERT_CHECK_LIST_COMMAND,
   INSERT_ORDERED_LIST_COMMAND,
@@ -24,8 +23,19 @@ import { useCallback, useMemo, useState } from "react";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
+import classes from "./ComponentPickerPlugin.module.scss";
+import { NumberListIcon } from "../../icons/NumberList";
+import { MarkedListIcon } from "../../icons/MarkedList";
+import { CheckListIcon } from "../../icons/CheckList";
+import { BannerIcon } from "../../icons/Banner";
+import { AlignLeftIcon } from "../../icons/AlignLeft";
+import { AlignCenterIcon } from "../../icons/AlignCenter";
+import { AlignRightIcon } from "../../icons/AlignRight";
+import { H1Icon } from "../../icons/H1Icon";
+import { H3Icon } from "../../icons/H3Icon";
+import { H2Icon } from "../../icons/H2Icon";
 // import useModal from '../../hooks/useModal';
-import catTypingGif from "../../images/cat-typing.gif";
+// import catTypingGif from "../../images/cat-typing.gif";
 
 // import {INSERT_COLLAPSIBLE_COMMAND} from '../CollapsiblePlugin';
 // import {InsertEquationDialog} from '../EquationsPlugin';
@@ -94,7 +104,9 @@ function ComponentPickerMenuItem({
       onClick={onClick}
     >
       {option.icon}
-      <span className="text">{option.title}</span>
+      <span className={classes.component_picker_poppup_text}>
+        {option.title}
+      </span>
     </li>
   );
 }
@@ -170,25 +182,50 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
             }
           }),
       }),
-      ...Array.from({ length: 3 }, (_, i) => i + 1).map(
-        (n) =>
-          new ComponentPickerOption(`Заголовок ${n}`, {
-            icon: <i className={`icon h${n}`} />,
-            keywords: ["heading", "header", `h${n}`, "заголовок"],
-            onSelect: () =>
-              editor.update(() => {
-                const selection = $getSelection();
-                if ($isRangeSelection(selection)) {
-                  $setBlocksType_experimental(selection, () =>
-                    // @ts-ignore Correct types, but since they're dynamic TS doesn't like it.
-                    $createHeadingNode(`h${n}`)
-                  );
-                }
-              }),
-          })
-      ),
+      new ComponentPickerOption(`Заголовок 1`, {
+        icon: <H1Icon />,
+        keywords: ["heading", "header", `h1`, "заголовок"],
+        onSelect: () =>
+          editor.update(() => {
+            const selection = $getSelection();
+            if ($isRangeSelection(selection)) {
+              $setBlocksType_experimental(selection, () =>
+                // @ts-ignore Correct types, but since they're dynamic TS doesn't like it.
+                $createHeadingNode(`h1`)
+              );
+            }
+          }),
+      }),
+      new ComponentPickerOption(`Заголовок 2`, {
+        icon: <H2Icon />,
+        keywords: ["heading", "header", `h2`, "заголовок"],
+        onSelect: () =>
+          editor.update(() => {
+            const selection = $getSelection();
+            if ($isRangeSelection(selection)) {
+              $setBlocksType_experimental(selection, () =>
+                // @ts-ignore Correct types, but since they're dynamic TS doesn't like it.
+                $createHeadingNode(`h2`)
+              );
+            }
+          }),
+      }),
+      new ComponentPickerOption(`Заголовок 3`, {
+        icon: <H3Icon />,
+        keywords: ["heading", "header", `h3`, "заголовок"],
+        onSelect: () =>
+          editor.update(() => {
+            const selection = $getSelection();
+            if ($isRangeSelection(selection)) {
+              $setBlocksType_experimental(selection, () =>
+                // @ts-ignore Correct types, but since they're dynamic TS doesn't like it.
+                $createHeadingNode(`h3`)
+              );
+            }
+          }),
+      }),
       new ComponentPickerOption("Нумерованый список", {
-        icon: <i className="icon number" />,
+        icon: <NumberListIcon />,
         keywords: [
           "numbered list",
           "ordered list",
@@ -200,7 +237,7 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
           editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined),
       }),
       new ComponentPickerOption("Маркированый список", {
-        icon: <i className="icon bullet" />,
+        icon: <MarkedListIcon />,
         keywords: [
           "bulleted list",
           "unordered list",
@@ -212,13 +249,13 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
           editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined),
       }),
       new ComponentPickerOption("Чек-лист", {
-        icon: <i className="icon check" />,
+        icon: <CheckListIcon />,
         keywords: ["check list", "todo list", "список", "чек-лист"],
         onSelect: () =>
           editor.dispatchCommand(INSERT_CHECK_LIST_COMMAND, undefined),
       }),
       new ComponentPickerOption("Банер", {
-        icon: <i className="icon quote" />,
+        icon: <BannerIcon />,
         keywords: ["Банер"],
         onSelect: () =>
           editor.update(() => {
@@ -249,30 +286,27 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
       //     }),
       // }),
       new ComponentPickerOption("Выравнивание влево", {
-        icon: <i className={`icon align`} />,
+        icon: <AlignLeftIcon />,
         keywords: ["align", "justify", "выравникание"],
         onSelect: () => {
-          
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left")
-        }
+          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
+        },
       }),
 
       new ComponentPickerOption("Выравнивание по-центру", {
-        icon: <i className={`icon align`} />,
+        icon: <AlignCenterIcon />,
         keywords: ["align", "justify", "выравникание"],
         onSelect: () => {
-          
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center")
-        }
+          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
+        },
       }),
 
       new ComponentPickerOption("Выравнивание вправо", {
-        icon: <i className={`icon align`} />,
+        icon: <AlignRightIcon />,
         keywords: ["align", "justify", "выравникание"],
         onSelect: () => {
-          
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right")
-        }
+          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
+        },
       }),
 
       // ...["left", "center", "right"].map(
@@ -336,7 +370,7 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
         ) =>
           anchorElementRef.current && options.length
             ? ReactDOM.createPortal(
-                <div className="typeahead-popover component-picker-menu">
+                <div className={classes.component_picker_poppup}>
                   <ul>
                     {options.map((option, i: number) => (
                       <ComponentPickerMenuItem
