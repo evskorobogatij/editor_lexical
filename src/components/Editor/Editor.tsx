@@ -11,6 +11,7 @@ import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 // import AutoLinkPlugin from "@lexical/react/LexicalAutoLinkPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
+import ComponentPickerPlugin from "./plugins/ComponentPickerPlugin";
 import FloatingTextFormatToolbarPlugin from "./plugins";
 import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
 
@@ -54,6 +55,8 @@ export function Editor() {
           <ListPlugin />
           <CheckListPlugin />
           <LinkPlugin />
+          <ComponentPickerPlugin />
+
           {floatingAnchorElem && (
             <>
               <FloatingTextFormatToolbarPlugin
