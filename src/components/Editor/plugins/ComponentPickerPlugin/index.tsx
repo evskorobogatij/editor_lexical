@@ -12,6 +12,7 @@ import {
 import { $createHeadingNode, $createQuoteNode } from "@lexical/rich-text";
 import { $setBlocksType_experimental } from "@lexical/selection";
 import { INSERT_TABLE_COMMAND } from "@lexical/table";
+import { TOGGLE_LINK_COMMAND } from "@lexical/link";
 import {
   $createParagraphNode,
   $getSelection,
@@ -34,6 +35,7 @@ import { AlignRightIcon } from "../../icons/AlignRight";
 import { H1Icon } from "../../icons/H1Icon";
 import { H3Icon } from "../../icons/H3Icon";
 import { H2Icon } from "../../icons/H2Icon";
+import { LinkIcon } from "../../icons/LinkIcon";
 // import useModal from '../../hooks/useModal';
 // import catTypingGif from "../../images/cat-typing.gif";
 
@@ -263,6 +265,17 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
             if ($isRangeSelection(selection)) {
               $setBlocksType_experimental(selection, () => $createQuoteNode());
             }
+          }),
+      }),
+
+      //
+      new ComponentPickerOption("Ссылка", {
+        icon: <LinkIcon />,
+        keywords: ["link", "ссылка"],
+        onSelect: () =>
+          editor.update(() => {
+            const selection = $getSelection();
+            editor.dispatchCommand(TOGGLE_LINK_COMMAND, "https://");
           }),
       }),
 
