@@ -16,6 +16,7 @@
   transition: opacity 0.5s;
   height: 35px;
   will-change: transform;
+  align-items: center;
 }
 
 .floating-text-format-popup button.popup-item {
