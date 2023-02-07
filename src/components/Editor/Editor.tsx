@@ -14,11 +14,13 @@ import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
 import ComponentPickerPlugin from "./plugins/ComponentPickerPlugin";
 import FloatingTextFormatToolbarPlugin from "./plugins/FloatingTextFormatToolbarPlugin";
 import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
+import AutocompletePlugin from "./plugins/AutocomplatePlugin";
 
 import "./style.css";
 import { editorConfig } from "./config";
 import { useState } from "react";
 import FloatingLinkEditorPlugin from "./plugins/FloatingLinkEditorPlugin";
+import { SharedAutocompleteContext } from "./context/SharedAutocompleteContext";
 
 function Placeholder() {
   return (
@@ -40,39 +42,42 @@ export function Editor() {
 
   return (
     <LexicalComposer initialConfig={editorConfig}>
-      <div className="editor-container">
-        {/* <ToolbarPlugin /> */}
-        <div className="editor-inner">
-          <RichTextPlugin
-            contentEditable={
-              <div ref={onRef}>
-                <ContentEditable className="editor-input" />
-              </div>
-            }
-            placeholder={<Placeholder />}
-            ErrorBoundary={LexicalErrorBoundary}
-          />
-          <HistoryPlugin />
-          {/* <TreeViewPlugin /> */}
-          <AutoFocusPlugin />
-          {/* <CodeHighlightPlugin /> */}
-          <ListPlugin />
-          <CheckListPlugin />
-          <LinkPlugin />
-          <ComponentPickerPlugin />
+      <SharedAutocompleteContext>
+        <div className="editor-container">
+          {/* <ToolbarPlugin /> */}
+          <div className="editor-inner">
+            <RichTextPlugin
+              contentEditable={
+                <div ref={onRef}>
+                  <ContentEditable className="editor-input" />
+                </div>
+              }
+              placeholder={<Placeholder />}
+              ErrorBoundary={LexicalErrorBoundary}
+            />
+            <HistoryPlugin />
+            {/* <TreeViewPlugin /> */}
+            <AutoFocusPlugin />
+            {/* <CodeHighlightPlugin /> */}
+            <ListPlugin />
+            <CheckListPlugin />
+            <LinkPlugin />
+            <ComponentPickerPlugin />
+            <AutocompletePlugin />
 
-          {floatingAnchorElem && (
-            <>
-              <FloatingTextFormatToolbarPlugin
-                anchorElem={floatingAnchorElem}
-              />
-              <FloatingLinkEditorPlugin anchorElem={floatingAnchorElem} />
-            </>
-          )}
-          <AutoLinkPlugin />
-          {/* <ListMaxIndentLevelPlugin maxDepth={7} /> */}
+            {floatingAnchorElem && (
+              <>
+                <FloatingTextFormatToolbarPlugin
+                  anchorElem={floatingAnchorElem}
+                />
+                <FloatingLinkEditorPlugin anchorElem={floatingAnchorElem} />
+              </>
+            )}
+            <AutoLinkPlugin />
+            {/* <ListMaxIndentLevelPlugin maxDepth={7} /> */}
+          </div>
         </div>
-      </div>
+      </SharedAutocompleteContext>
     </LexicalComposer>
   );
 }
