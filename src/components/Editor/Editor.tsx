@@ -19,10 +19,11 @@ import AutocompletePlugin from "./plugins/AutocomplatePlugin";
 
 import "./style.css";
 import { editorConfig } from "./config";
-import { forwardRef, useRef, useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import FloatingLinkEditorPlugin from "./plugins/FloatingLinkEditorPlugin";
 import { SharedAutocompleteContext } from "./context/SharedAutocompleteContext";
 import type { EditorState } from "lexical";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
 function Placeholder() {
   return (
@@ -32,69 +33,91 @@ function Placeholder() {
   );
 }
 
-export const Editor = forwardRef<EditorState>(({}, editorStateRef) => {
-  const [floatingAnchorElem, setFloatingAnchorElem] =
-    useState<HTMLDivElement | null>(null);
+interface EditorProps {
+  initialText: string;
+}
 
-  const onRef = (_floatingAnchorElem: HTMLDivElement) => {
-    if (_floatingAnchorElem !== null) {
-      setFloatingAnchorElem(_floatingAnchorElem);
-    }
-  };
+interface LoadingDataPluginsProps {
+  data: string;
+}
+const LoadingDataPlugins = ({ data }: LoadingDataPluginsProps): null => {
+  console.log(data);
+  const [editor] = useLexicalComposerContext();
+  const editorState = editor.parseEditorState(data);
+  editor.setEditorState(editorState);
 
-  const ref = useRef<EditorState>(null);
+  useEffect(() => {
+    console.log("DATA CHANGED", data);
+  }, [data]);
 
-  // console.log(editorStateRef.current)
-  const handleEditorChange = (editorState: EditorState) => {
-    if (editorStateRef !== null) {
-      console.log('==REF==',editorStateRef);
-      console.log('==STATE==',editorState);
+  return null;
+};
+
+export const Editor = forwardRef<EditorState, EditorProps>(
+  ({ initialText }, editorStateRef) => {
+    const [floatingAnchorElem, setFloatingAnchorElem] =
+      useState<HTMLDivElement | null>(null);
+
+    const onRef = (_floatingAnchorElem: HTMLDivElement) => {
+      if (_floatingAnchorElem !== null) {
+        setFloatingAnchorElem(_floatingAnchorElem);
+      }
+    };
+
+    const ref = useRef<EditorState>(null);
+
+    // console.log(editorStateRef.current)
+    const handleEditorChange = (editorState: EditorState) => {
+      if (editorStateRef !== null) {
+        // @ts-ignore
+        editorStateRef.current = editorState;
+      }
+    };
+
+    return (
       // @ts-ignore
-      editorStateRef.current = editorState
-    }
-  };
+      <LexicalComposer
+        initialConfig={{ ...editorConfig, editorState: initialText }}
+      >
+        <SharedAutocompleteContext>
+          <div className="editor-container">
+            {/* <ToolbarPlugin /> */}
+            <div className="editor-inner">
+              <RichTextPlugin
+                contentEditable={
+                  <div ref={onRef}>
+                    <ContentEditable className="editor-input" />
+                  </div>
+                }
+                placeholder={<Placeholder />}
+                ErrorBoundary={LexicalErrorBoundary}
+              />
+              <OnChangePlugin onChange={handleEditorChange} />
+              <HistoryPlugin />
+              {/* <TreeViewPlugin /> */}
+              <AutoFocusPlugin />
+              {/* <CodeHighlightPlugin /> */}
+              <ListPlugin />
+              <CheckListPlugin />
+              <LinkPlugin />
+              <ComponentPickerPlugin />
+              <AutocompletePlugin />
+              <LoadingDataPlugins data={initialText} />
 
-  return (
-    <LexicalComposer initialConfig={editorConfig}>
-      <SharedAutocompleteContext>
-        <div className="editor-container">
-          {/* <ToolbarPlugin /> */}
-          <div className="editor-inner">
-            <RichTextPlugin
-              contentEditable={
-                <div ref={onRef}>
-                  <ContentEditable className="editor-input" />
-                </div>
-              }
-              placeholder={<Placeholder />}
-              ErrorBoundary={LexicalErrorBoundary}
-            />
-            <OnChangePlugin              
-              onChange={handleEditorChange}
-            />
-            <HistoryPlugin />
-            {/* <TreeViewPlugin /> */}
-            <AutoFocusPlugin />
-            {/* <CodeHighlightPlugin /> */}
-            <ListPlugin />
-            <CheckListPlugin />
-            <LinkPlugin />
-            <ComponentPickerPlugin />
-            <AutocompletePlugin />
-
-            {floatingAnchorElem && (
-              <>
-                <FloatingTextFormatToolbarPlugin
-                  anchorElem={floatingAnchorElem}
-                />
-                <FloatingLinkEditorPlugin anchorElem={floatingAnchorElem} />
-              </>
-            )}
-            <AutoLinkPlugin />
-            {/* <ListMaxIndentLevelPlugin maxDepth={7} /> */}
+              {floatingAnchorElem && (
+                <>
+                  <FloatingTextFormatToolbarPlugin
+                    anchorElem={floatingAnchorElem}
+                  />
+                  <FloatingLinkEditorPlugin anchorElem={floatingAnchorElem} />
+                </>
+              )}
+              <AutoLinkPlugin />
+              {/* <ListMaxIndentLevelPlugin maxDepth={7} /> */}
+            </div>
           </div>
-        </div>
-      </SharedAutocompleteContext>
-    </LexicalComposer>
-  );
-});
+        </SharedAutocompleteContext>
+      </LexicalComposer>
+    );
+  }
+);
