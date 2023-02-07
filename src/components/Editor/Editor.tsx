@@ -1,6 +1,7 @@
 // import ExampleTheme from "./themes/ExampleTheme";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
@@ -18,9 +19,10 @@ import AutocompletePlugin from "./plugins/AutocomplatePlugin";
 
 import "./style.css";
 import { editorConfig } from "./config";
-import { useState } from "react";
+import { forwardRef, useRef, useState } from "react";
 import FloatingLinkEditorPlugin from "./plugins/FloatingLinkEditorPlugin";
 import { SharedAutocompleteContext } from "./context/SharedAutocompleteContext";
+import type { EditorState } from "lexical";
 
 function Placeholder() {
   return (
@@ -30,13 +32,25 @@ function Placeholder() {
   );
 }
 
-export function Editor() {
+export const Editor = forwardRef<EditorState>(({}, editorStateRef) => {
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null);
 
   const onRef = (_floatingAnchorElem: HTMLDivElement) => {
     if (_floatingAnchorElem !== null) {
       setFloatingAnchorElem(_floatingAnchorElem);
+    }
+  };
+
+  const ref = useRef<EditorState>(null);
+
+  // console.log(editorStateRef.current)
+  const handleEditorChange = (editorState: EditorState) => {
+    if (editorStateRef !== null) {
+      console.log('==REF==',editorStateRef);
+      console.log('==STATE==',editorState);
+      // @ts-ignore
+      editorStateRef.current = editorState
     }
   };
 
@@ -54,6 +68,9 @@ export function Editor() {
               }
               placeholder={<Placeholder />}
               ErrorBoundary={LexicalErrorBoundary}
+            />
+            <OnChangePlugin              
+              onChange={handleEditorChange}
             />
             <HistoryPlugin />
             {/* <TreeViewPlugin /> */}
@@ -80,4 +97,4 @@ export function Editor() {
       </SharedAutocompleteContext>
     </LexicalComposer>
   );
-}
+});

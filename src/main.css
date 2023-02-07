@@ -1,6 +1,6 @@
 body {
   background-color: #2f3136;
-  font-family: 'Manrope'
+  font-family: "Manrope";
 }
 h1 {
   color: #fff;
@@ -8,4 +8,30 @@ h1 {
   font-size: 36px;
   line-height: 36px;
   font-weight: 800;
+}
+
+.app-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  width: 600px
+}
+
+.app-title > h1 {
+  flex: 1;
+}
+
+.btn-title {
+  cursor: pointer;
+  background-color: #fbc333;
+  height: 40px;
+  border-radius: 8px;
+  border: none;
+  /* flex-grow: 1; */
+  color: #2f3136;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 600;
+  font-family: "Manrope";
 }
