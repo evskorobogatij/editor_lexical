@@ -55,12 +55,10 @@ import { MarkedListIcon } from "../../icons/MarkedList";
 import { CheckListIcon } from "../../icons/CheckList";
 import { LinkIcon } from "../../icons/LinkIcon";
 import { Devider } from "../../../Divider";
-import { AlignLeftIcon } from "../../icons/AlignLeft";
-import { AlignCenterIcon } from "../../icons/AlignCenter";
-import { AlignRightIcon } from "../../icons/AlignRight";
 import ColorPicker from "../../ui/ColorPicker/ColorPicker";
 import { FontColorIcon } from "../../icons/FontColorIcon";
 import { BlockTypePicker } from "../../ui/BlockTypePicker";
+import { TextAlignPicker } from "../../ui/TextAlignPicker";
 
 type ListType = "number" | "bullet" | "check";
 
@@ -126,18 +124,6 @@ function TextFormatFloatingToolbar({
       editor.dispatchCommand(INSERT_CHECK_LIST_COMMAND, undefined);
     else editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
   }, [editor, listType]);
-
-  const formatTextLeftAlign = useCallback(() => {
-    editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
-  }, [editor]);
-
-  const formatTextCenterAlign = useCallback(() => {
-    editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
-  }, [editor]);
-
-  const formatTextRightAlign = useCallback(() => {
-    editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
-  }, [editor]);
 
   const applyStyleText = useCallback(
     (styles: Record<string, string>) => {
@@ -308,6 +294,12 @@ function TextFormatFloatingToolbar({
             title="text color"
           />
 
+          <TextAlignPicker
+            buttonClassName="popup-item spaced"
+            // blockType={blockType}
+            editor={editor}
+          />
+
           <button
             onClick={insertNumberList}
             className={
@@ -339,32 +331,6 @@ function TextFormatFloatingToolbar({
             aria-label="Insert check list"
           >
             <CheckListIcon />
-          </button>
-
-          <Devider />
-
-          <button
-            onClick={formatTextLeftAlign}
-            className={"popup-item spaced"}
-            aria-label="left align"
-          >
-            <AlignLeftIcon />
-          </button>
-
-          <button
-            onClick={formatTextCenterAlign}
-            className={"popup-item spaced"}
-            aria-label="center align"
-          >
-            <AlignCenterIcon />
-          </button>
-
-          <button
-            onClick={formatTextRightAlign}
-            className={"popup-item spaced"}
-            aria-label="right align"
-          >
-            <AlignRightIcon />
           </button>
 
           <Devider />
