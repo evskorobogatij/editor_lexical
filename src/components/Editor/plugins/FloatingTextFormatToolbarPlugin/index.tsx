@@ -28,8 +28,16 @@ import {
   ListNode,
 } from "@lexical/list";
 import { $wrapNodes } from "@lexical/selection";
-import { $createHeadingNode, $createQuoteNode, $isHeadingNode } from "@lexical/rich-text";
-import { $setBlocksType_experimental } from "@lexical/selection";
+import {
+  $createHeadingNode,
+  $createQuoteNode,
+  $isHeadingNode,
+} from "@lexical/rich-text";
+import {
+  $setBlocksType_experimental,
+  $getSelectionStyleValueForProperty,
+  $patchStyleText,
+} from "@lexical/selection";
 import { useCallback, useEffect, useRef, useState } from "react";
 import * as React from "react";
 import { createPortal } from "react-dom";
@@ -54,6 +62,8 @@ import { BannerIcon } from "../../icons/Banner";
 import { H1Icon } from "../../icons/H1Icon";
 import { H2Icon } from "../../icons/H2Icon";
 import { H3Icon } from "../../icons/H3Icon";
+import ColorPicker from "../../ui/ColorPicker/ColorPicker";
+import { FontColorIcon } from "../../icons/FontColorIcon";
 
 type ListType = "number" | "bullet" | "check";
 
@@ -70,6 +80,8 @@ function TextFormatFloatingToolbar({
   isSuperscript,
   isList,
   listType,
+  fontColor,
+  bgColor,
 }: {
   editor: LexicalEditor;
   anchorElem: HTMLElement;
@@ -83,8 +95,12 @@ function TextFormatFloatingToolbar({
   isUnderline: boolean;
   isList: boolean;
   listType: ListType | undefined;
+  fontColor: string;
+  bgColor: string;
 }): JSX.Element {
   const popupCharStylesEditorRef = useRef<HTMLDivElement | null>(null);
+
+  const [activeEditor, setActiveEditor] = useState(editor);
 
   const insertLink = useCallback(() => {
     if (!isLink) {
@@ -165,6 +181,36 @@ function TextFormatFloatingToolbar({
     });
   };
 
+  const applyStyleText = useCallback(
+    (styles: Record<string, string>) => {
+      activeEditor.update(() => {
+        const selection = $getSelection();
+        if ($isRangeSelection(selection)) {
+          $patchStyleText(selection, styles);
+        }
+      });
+    },
+    [activeEditor]
+  );
+
+  const onFontColorSelect = useCallback(
+    (value: string) => {
+      applyStyleText({ color: value });
+    },
+    [applyStyleText]
+  );
+
+  const onBgColorSelect = useCallback(
+    (value: string) => {
+      applyStyleText({ "background-color": value });
+    },
+    [applyStyleText]
+  );
+
+  const onClearFontColor = useCallback(() => {
+    applyStyleText({ color: "#fff", "background-color": "#0000" });
+  }, [applyStyleText]);
+
   const insertComment = () => {
     // editor.dispatchCommand(INSERT_INLINE_COMMAND, undefined);
   };
@@ -228,8 +274,9 @@ function TextFormatFloatingToolbar({
 
       editor.registerCommand(
         SELECTION_CHANGE_COMMAND,
-        () => {
+        (_payload, newEditor) => {
           updateTextFormatFloatingToolbar();
+          setActiveEditor(newEditor);
           return false;
         },
         COMMAND_PRIORITY_LOW
@@ -416,6 +463,21 @@ function TextFormatFloatingToolbar({
           >
             <BannerIcon />
           </button>
+
+          <ColorPicker
+            // disabled={!isEditable}
+            buttonClassName="popup-item spaced"
+            buttonAriaLabel="Formatting text color"
+            // buttonIconClassName="icon font-color"
+            icon={<FontColorIcon />}
+            color={fontColor}
+            bgColor={bgColor}
+            onTextColorChange={onFontColorSelect}
+            onBgColorChange={onBgColorSelect}
+            clearFontColor={onClearFontColor}
+            // onChange={onFontColorSelect}
+            title="text color"
+          />
         </>
       )}
       {/* <button
@@ -446,7 +508,10 @@ function useFloatingTextFormatToolbar(
   const [isList, setIsList] = useState(false);
   const [listType, setListType] = useState<ListType | undefined>(undefined);
 
-  const [blockType, setBlockType] = useState<string>('')
+  const [blockType, setBlockType] = useState<string>("");
+
+  const [fontColor, setFontColor] = useState<string>("#fff");
+  const [bgColor, setBgColor] = useState<string>("#0000");
 
   const updatePopup = useCallback(() => {
     editor.getEditorState().read(() => {
@@ -510,9 +575,9 @@ function useFloatingTextFormatToolbar(
       console.log("NODE IS ", node.getType(), parent?.getType());
 
       const type = $isHeadingNode(element)
-            ? element.getTag()
-            : element.getType();
-      console.log(type)      
+        ? element.getTag()
+        : element.getType();
+      console.log(type);
 
       if ($isListNode(element)) {
         setIsList(true);
@@ -529,6 +594,17 @@ function useFloatingTextFormatToolbar(
         setIsList(false);
         setListType(undefined);
       }
+
+      setFontColor(
+        $getSelectionStyleValueForProperty(selection, "color", "#ffff")
+      );
+      setBgColor(
+        $getSelectionStyleValueForProperty(
+          selection,
+          "background-color",
+          "#0000"
+        )
+      );
 
       if (
         !$isCodeHighlightNode(selection.anchor.getNode()) &&
@@ -579,6 +655,8 @@ function useFloatingTextFormatToolbar(
       isCode={isCode}
       isList={isList}
       listType={listType}
+      fontColor={fontColor}
+      bgColor={bgColor}
     />,
     anchorElem
   );
