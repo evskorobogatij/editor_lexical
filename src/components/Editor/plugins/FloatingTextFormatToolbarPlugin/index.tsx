@@ -50,8 +50,6 @@ import { BoldIcon } from "../../icons/Bold";
 import { ItalicIcon } from "../../icons/Italic";
 import { UnderlineIcon } from "../../icons/Underline";
 import { StrikethroughIcon } from "../../icons/Strikethrough";
-import { NumberListIcon } from "../../icons/NumberList";
-import { MarkedListIcon } from "../../icons/MarkedList";
 import { CheckListIcon } from "../../icons/CheckList";
 import { LinkIcon } from "../../icons/LinkIcon";
 import { Devider } from "../../../Divider";
@@ -59,8 +57,10 @@ import ColorPicker from "../../ui/ColorPicker/ColorPicker";
 import { FontColorIcon } from "../../icons/FontColorIcon";
 import { BlockTypePicker } from "../../ui/BlockTypePicker";
 import { TextAlignPicker } from "../../ui/TextAlignPicker";
+import { ListTypePicker } from "../../ui/ListTypePicker";
+import clsx from "clsx";
 
-type ListType = "number" | "bullet" | "check";
+export type ListType = "number" | "bullet" | "check";
 
 function TextFormatFloatingToolbar({
   editor,
@@ -106,18 +106,6 @@ function TextFormatFloatingToolbar({
       editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
     }
   }, [editor, isLink]);
-
-  const insertNumberList = useCallback(() => {
-    if (listType !== "number")
-      editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
-    else editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
-  }, [editor, listType]);
-
-  const insertMarkedList = useCallback(() => {
-    if (listType !== "bullet")
-      editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
-    else editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
-  }, [editor, listType]);
 
   const insertCheckList = useCallback(() => {
     if (listType !== "check")
@@ -300,27 +288,12 @@ function TextFormatFloatingToolbar({
             editor={editor}
           />
 
-          <button
-            onClick={insertNumberList}
-            className={
-              "popup-item spaced " +
-              (isList && listType === "number" ? "active" : "")
-            }
-            aria-label="Insert list"
-          >
-            <NumberListIcon />
-          </button>
-
-          <button
-            onClick={insertMarkedList}
-            className={
-              "popup-item spaced " +
-              (isList && listType === "bullet" ? "active" : "")
-            }
-            aria-label="Insert bulled list"
-          >
-            <MarkedListIcon />
-          </button>
+          <ListTypePicker
+            buttonClassName={clsx("popup-item spaced", isList && "active")}
+            editor={editor}
+            isList={isList}
+            listType={listType}
+          />
 
           <button
             onClick={insertCheckList}
