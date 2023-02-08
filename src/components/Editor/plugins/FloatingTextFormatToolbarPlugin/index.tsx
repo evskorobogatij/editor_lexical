@@ -251,7 +251,7 @@ function TextFormatFloatingToolbar({
             blockType={blockType}
             editor={editor}
           />
-          
+
           <Devider />
           <button
             onClick={() => {
@@ -292,7 +292,22 @@ function TextFormatFloatingToolbar({
           </button>
 
           <Devider />
-          
+
+          <ColorPicker
+            // disabled={!isEditable}
+            buttonClassName="popup-item spaced"
+            buttonAriaLabel="Formatting text color"
+            // buttonIconClassName="icon font-color"
+            icon={<FontColorIcon />}
+            color={fontColor}
+            bgColor={bgColor}
+            onTextColorChange={onFontColorSelect}
+            onBgColorChange={onBgColorSelect}
+            clearFontColor={onClearFontColor}
+            // onChange={onFontColorSelect}
+            title="text color"
+          />
+
           <button
             onClick={insertNumberList}
             className={
@@ -360,21 +375,6 @@ function TextFormatFloatingToolbar({
           >
             <LinkIcon />
           </button>
-
-          <ColorPicker
-            // disabled={!isEditable}
-            buttonClassName="popup-item spaced"
-            buttonAriaLabel="Formatting text color"
-            // buttonIconClassName="icon font-color"
-            icon={<FontColorIcon />}
-            color={fontColor}
-            bgColor={bgColor}
-            onTextColorChange={onFontColorSelect}
-            onBgColorChange={onBgColorSelect}
-            clearFontColor={onClearFontColor}
-            // onChange={onFontColorSelect}
-            title="text color"
-          />
         </>
       )}
       {/* <button
