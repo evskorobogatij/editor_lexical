@@ -58,7 +58,6 @@ import { Devider } from "../../../Divider";
 import { AlignLeftIcon } from "../../icons/AlignLeft";
 import { AlignCenterIcon } from "../../icons/AlignCenter";
 import { AlignRightIcon } from "../../icons/AlignRight";
-import { BannerIcon } from "../../icons/Banner";
 import ColorPicker from "../../ui/ColorPicker/ColorPicker";
 import { FontColorIcon } from "../../icons/FontColorIcon";
 import { BlockTypePicker } from "../../ui/BlockTypePicker";
@@ -139,20 +138,6 @@ function TextFormatFloatingToolbar({
   const formatTextRightAlign = useCallback(() => {
     editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
   }, [editor]);
-
-  const formatSimpleBanner = () => {
-    // if (blockType !== 'quote') {
-    editor.update(() => {
-      const selection = $getSelection();
-      if (
-        $isRangeSelection(selection)
-        //  ||        DEPRECATED_$isGridSelection(selection)
-      ) {
-        $setBlocksType_experimental(selection, () => $createQuoteNode());
-      }
-    });
-    // }
-  };
 
   const applyStyleText = useCallback(
     (styles: Record<string, string>) => {
@@ -374,14 +359,6 @@ function TextFormatFloatingToolbar({
             aria-label="Insert link"
           >
             <LinkIcon />
-          </button>
-
-          <button
-            onClick={formatSimpleBanner}
-            className={"popup-item spaced"}
-            aria-label="Insert banner"
-          >
-            <BannerIcon />
           </button>
 
           <ColorPicker
