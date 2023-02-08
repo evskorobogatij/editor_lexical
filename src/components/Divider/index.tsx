@@ -8,7 +8,8 @@ export const Devider = () => (
   <div
     style={{
       backgroundColor: "#E8EAED",
-      width: "3px",
+      width: "1.5px",
+      height: "32px",
       marginTop: "4px",
       marginBottom: "4px",
       borderRadius: "8px",
