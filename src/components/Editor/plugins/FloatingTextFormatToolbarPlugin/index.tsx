@@ -59,11 +59,9 @@ import { AlignLeftIcon } from "../../icons/AlignLeft";
 import { AlignCenterIcon } from "../../icons/AlignCenter";
 import { AlignRightIcon } from "../../icons/AlignRight";
 import { BannerIcon } from "../../icons/Banner";
-import { H1Icon } from "../../icons/H1Icon";
-import { H2Icon } from "../../icons/H2Icon";
-import { H3Icon } from "../../icons/H3Icon";
 import ColorPicker from "../../ui/ColorPicker/ColorPicker";
 import { FontColorIcon } from "../../icons/FontColorIcon";
+import { BlockTypePicker } from "../../ui/BlockTypePicker";
 
 type ListType = "number" | "bullet" | "check";
 
@@ -82,6 +80,7 @@ function TextFormatFloatingToolbar({
   listType,
   fontColor,
   bgColor,
+  blockType,
 }: {
   editor: LexicalEditor;
   anchorElem: HTMLElement;
@@ -97,6 +96,7 @@ function TextFormatFloatingToolbar({
   listType: ListType | undefined;
   fontColor: string;
   bgColor: string;
+  blockType: string;
 }): JSX.Element {
   const popupCharStylesEditorRef = useRef<HTMLDivElement | null>(null);
 
@@ -152,33 +152,6 @@ function TextFormatFloatingToolbar({
       }
     });
     // }
-  };
-
-  const formatH1Header = () => {
-    editor.update(() => {
-      const selection = $getSelection();
-      if ($isRangeSelection(selection)) {
-        $wrapNodes(selection, () => $createHeadingNode("h1"));
-      }
-    });
-  };
-
-  const formatH2Header = () => {
-    editor.update(() => {
-      const selection = $getSelection();
-      if ($isRangeSelection(selection)) {
-        $wrapNodes(selection, () => $createHeadingNode("h2"));
-      }
-    });
-  };
-
-  const formatH3Header = () => {
-    editor.update(() => {
-      const selection = $getSelection();
-      if ($isRangeSelection(selection)) {
-        $wrapNodes(selection, () => $createHeadingNode("h3"));
-      }
-    });
   };
 
   const applyStyleText = useCallback(
@@ -288,27 +261,12 @@ function TextFormatFloatingToolbar({
     <div ref={popupCharStylesEditorRef} className="floating-text-format-popup">
       {editor.isEditable() && (
         <>
-          <button
-            onClick={formatH1Header}
-            className={"popup-item spaced "}
-            aria-label="Format text H1"
-          >
-            <H1Icon />
-          </button>
-          <button
-            onClick={formatH2Header}
-            className={"popup-item spaced "}
-            aria-label="Format text H2"
-          >
-            <H2Icon />
-          </button>
-          <button
-            onClick={formatH3Header}
-            className={"popup-item spaced "}
-            aria-label="Format text H2"
-          >
-            <H3Icon />
-          </button>
+          <BlockTypePicker
+            buttonClassName="popup-item spaced"
+            blockType={blockType}
+            editor={editor}
+          />
+          
           <Devider />
           <button
             onClick={() => {
@@ -349,45 +307,7 @@ function TextFormatFloatingToolbar({
           </button>
 
           <Devider />
-          {/* <button
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "subscript");
-            }}
-            className={"popup-item spaced " + (isSubscript ? "active" : "")}
-            title="Subscript"
-            aria-label="Format Subscript"
-          >
-            <i className="format subscript" />
-          </button>
-          <button
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "superscript");
-            }}
-            className={"popup-item spaced " + (isSuperscript ? "active" : "")}
-            title="Superscript"
-            aria-label="Format Superscript"
-          >
-            <i className="format superscript" />
-          </button> */}
-
-          {/* <button
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "code");
-            }}
-            className={"popup-item spaced " + (isCode ? "active" : "")}
-            aria-label="Insert code block"
-          >
-            <i className="format code" />
-          </button> */}
-
-          {/* <button
-            onClick={insertLink}
-            className={"popup-item spaced " + (isLink ? "active" : "")}
-            aria-label="Insert link"
-          >
-            <i className="format link" />
-          </button> */}
-
+          
           <button
             onClick={insertNumberList}
             className={
@@ -577,7 +497,8 @@ function useFloatingTextFormatToolbar(
       const type = $isHeadingNode(element)
         ? element.getTag()
         : element.getType();
-      console.log(type);
+      console.log("TYPE IS", type);
+      setBlockType(type);
 
       if ($isListNode(element)) {
         setIsList(true);
@@ -657,6 +578,7 @@ function useFloatingTextFormatToolbar(
       listType={listType}
       fontColor={fontColor}
       bgColor={bgColor}
+      blockType={blockType}
     />,
     anchorElem
   );

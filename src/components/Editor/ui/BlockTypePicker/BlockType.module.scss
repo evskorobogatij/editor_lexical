@@ -1,0 +1,60 @@
+.blockTypePicker {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+}
+
+.blockTypePickerMenu {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px 0px 4px;
+  gap: 4px;
+}
+
+.blockTypePickerMenu_Title {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 14px;
+
+  /* identical to box height */
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+
+  /* Text/secondary */
+  color: #95999e;
+}
+
+.blockTypePickerMenu_Item {
+  font-family: "Manrope";
+  width: 100%; //calc(100% - 16px);
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 12px;
+  color: #ffffff;
+  padding: 8px;
+  cursor: pointer;
+  background: none;
+  border: none;
+
+  &:hover {
+    background-color: #36393f;
+  }
+}
+
+.blockTypePickerMenu_Item_active {
+  background-color: #36393f;
+}
+
+.blockTypePickerMenu_sep {
+  height: 1px;
+  border-color: #40444b;
+  border-top-width: 1px;
+  border-top-style: solid;
+}
