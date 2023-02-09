@@ -17,7 +17,15 @@ const mainTheme: EditorThemeClasses = {
     nested: {
       listitem: "editor-nested-listitem",
     },
-    ol: "editor-list-ol",
+    // ol: "editor-list-ol",
+    olDepth: [
+      "editor-list-ol1",
+      "editor-list-ol2",
+      "editor-list-ol3",
+      "editor-list-ol4",
+      "editor-list-ol5",
+      "editor-list-ol6",
+    ],
     ul: "editor-list-ul",
     listitem: "editor-listitem",
     listitemChecked: "editor-listitem-checked",
