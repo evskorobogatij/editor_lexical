@@ -4,5 +4,6 @@ import svgr from 'vite-plugin-svgr'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/text_editor_demo/',
   plugins: [svgr(), react()],
 })
