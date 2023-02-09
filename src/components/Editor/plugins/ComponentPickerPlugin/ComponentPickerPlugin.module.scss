@@ -1,53 +1,57 @@
 .component_picker_poppup {
-    width: 300px;
-    background-color: #2f3136;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+  width: 300px;
+  background-color: #2f3136;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #666666;
+  color: white;
+  margin-top: 25px;
+
+  & ul {
+    padding: 0;
+    padding-left: 4px;
+    list-style: none;
+    margin: 0;
     border-radius: 8px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: #666666;
-    color: white;
-    margin-top: 25px;
+    max-height: 200px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 
-    & ul {
-        padding: 0;
-        padding-left: 4px;
-        list-style: none;
-        margin: 0;
-        border-radius: 8px;
-        max-height: 200px;
-        overflow-y: scroll;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-
-        &::-webkit-scrollbar {
-            display: none;
-        }
-
-        li {
-            margin: 0;
-            min-width: 180px;
-            font-size: 14px;
-            outline: none;
-            line-height: 32px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            &:hover {
-                background-color: #36393f;
-            }
-
-            & > i {
-                width: 24px;
-            }
-            & > svg {
-                width: 24px;
-            }
-        }
+    &::-webkit-scrollbar {
+      display: none;
     }
+
+    li {
+      margin: 0;
+      min-width: 180px;
+      font-size: 14px;
+      outline: none;
+      line-height: 32px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      &:hover {
+        background-color: #36393f;
+      }
+
+      & > i {
+        width: 24px;
+      }
+      & > svg {
+        width: 24px;
+      }
+    }
+  }
+}
+
+.component_picker_poppup_item_selected {
+  background-color: #36393f;
 }
 
 .component_picker_poppup_text {
-    flex: 1;
+  flex: 1;
 }

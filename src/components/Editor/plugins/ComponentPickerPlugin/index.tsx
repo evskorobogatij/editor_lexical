@@ -36,6 +36,8 @@ import { H1Icon } from "../../icons/H1Icon";
 import { H3Icon } from "../../icons/H3Icon";
 import { H2Icon } from "../../icons/H2Icon";
 import { LinkIcon } from "../../icons/LinkIcon";
+
+import clsx from "clsx";
 // import useModal from '../../hooks/useModal';
 // import catTypingGif from "../../images/cat-typing.gif";
 
@@ -89,15 +91,18 @@ function ComponentPickerMenuItem({
   onMouseEnter: () => void;
   option: ComponentPickerOption;
 }) {
-  let className = "item";
-  if (isSelected) {
-    className += " selected";
-  }
+  // let className = "item";
+  // if (isSelected) {
+  //   className += " component_picker_poppup_item_selected";
+  // }
   return (
     <li
       key={option.key}
       tabIndex={-1}
-      className={className}
+      className={clsx(
+        "item",
+        isSelected && classes.component_picker_poppup_item_selected
+      )}
       ref={option.setRefElement}
       role="option"
       aria-selected={isSelected}
