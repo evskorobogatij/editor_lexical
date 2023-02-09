@@ -11,6 +11,7 @@ import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 // import AutoLinkPlugin from "@lexical/react/LexicalAutoLinkPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin";
 import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
 import ComponentPickerPlugin from "./plugins/ComponentPickerPlugin";
 import FloatingTextFormatToolbarPlugin from "./plugins/FloatingTextFormatToolbarPlugin";
@@ -98,6 +99,7 @@ export const Editor = forwardRef<EditorState, EditorProps>(
               <AutoFocusPlugin />
               {/* <CodeHighlightPlugin /> */}
               <ListPlugin />
+              <TabIndentationPlugin />
               <CheckListPlugin />
               <LinkPlugin />
               <ComponentPickerPlugin />
