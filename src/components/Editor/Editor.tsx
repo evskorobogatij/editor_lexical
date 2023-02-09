@@ -25,6 +25,7 @@ import FloatingLinkEditorPlugin from "./plugins/FloatingLinkEditorPlugin";
 import { SharedAutocompleteContext } from "./context/SharedAutocompleteContext";
 import type { EditorState } from "lexical";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { MarkdownPlugin } from "./plugins/MarkdownShortcutPlugin";
 
 function Placeholder() {
   return (
@@ -103,6 +104,8 @@ export const Editor = forwardRef<EditorState, EditorProps>(
               <CheckListPlugin />
               <LinkPlugin />
               <ComponentPickerPlugin />
+              <MarkdownPlugin />
+              {/* <MarkdownShortcutPlugin transformers={TRANSFORMERS} /> */}
               <AutocompletePlugin />
               <LoadingDataPlugins data={initialText} />
 
