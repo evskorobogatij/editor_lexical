@@ -6,7 +6,7 @@ import {
 } from "lexical";
 import React, { useCallback } from "react";
 import { AlignCenterIcon } from "../../icons/AlignCenter";
-import { AlignLeftIcon } from "../../icons/AlignLeft";
+import { AlignLeftIcon } from "../../icons/AlignLeft2";
 import { AlignRightIcon } from "../../icons/AlignRight";
 import { DropDown } from "../DropDown";
 import { Devider } from "../../../Divider";
