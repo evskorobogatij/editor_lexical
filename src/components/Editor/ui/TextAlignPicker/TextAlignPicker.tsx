@@ -14,6 +14,7 @@ import { Devider } from "../../../Divider";
 import classes from "./TextAlignPicker.module.scss";
 import { LeftParagraphIcon } from "../../icons/LeftParagraphIcon";
 import { RightParagraphIcon } from "../../icons/RightParagraphIcon";
+import { ToolbarButton } from "../../../ToolbarButton";
 
 interface TextAlignPickerProps {
   buttonClassName: string;
@@ -54,45 +55,52 @@ export const TextAlignPicker: React.FC<TextAlignPickerProps> = ({
       icon={<AlignLeftIcon />}
     >
       <div className={classes.textAlignPicker}>
-        <button
-          onClick={formatTextLeftAlign}
+        <ToolbarButton
+          handleClick={formatTextLeftAlign}
           className={classes.textAlignPicker_item}
-          aria-label="left align"
-        >
-          <AlignLeftIcon />
-        </button>
+          ariaLabeles="left align"
+          icon={<AlignLeftIcon />}
+          tooltip={"По левому краю"}
+          tooltipType={"bottom"}
+        />
 
-        <button
-          onClick={formatTextCenterAlign}
+        <ToolbarButton
+          handleClick={formatTextCenterAlign}
           className={classes.textAlignPicker_item}
-          aria-label="center align"
-        >
-          <AlignCenterIcon />
-        </button>
+          ariaLabeles="center align"
+          icon={<AlignCenterIcon />}
+          tooltip={"По-центру"}
+          tooltipType={"bottom"}
+        />
 
-        <button
-          onClick={formatTextRightAlign}
+        <ToolbarButton
+          handleClick={formatTextRightAlign}
           className={classes.textAlignPicker_item}
-          aria-label="right align"
-        >
-          <AlignRightIcon />
-        </button>
+          ariaLabeles="right align"
+          icon={<AlignRightIcon />}
+          tooltip={"По правоу краю"}
+          tooltipType={"bottom"}
+        />
 
         <Devider />
 
-        <button
+        <ToolbarButton
           className={classes.textAlignPicker_item}
-          onClick={indentContent}
-        >
-          <LeftParagraphIcon />
-        </button>
+          handleClick={indentContent}
+          icon={<LeftParagraphIcon />}
+          ariaLabeles={"Увеличить отступ"}
+          tooltip={"Увеличить отступ"}
+          tooltipType={"bottom"}
+        />
 
-        <button
+        <ToolbarButton
           className={classes.textAlignPicker_item}
-          onClick={outdentContent}
-        >
-          <RightParagraphIcon />
-        </button>
+          handleClick={outdentContent}
+          icon={<RightParagraphIcon />}
+          ariaLabeles={"Уменьшить отступ"}
+          tooltip={"Уменьшить отступ"}
+          tooltipType={"bottom"}
+        />
       </div>
     </DropDown>
   );

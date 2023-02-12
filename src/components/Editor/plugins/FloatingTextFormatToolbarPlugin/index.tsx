@@ -282,7 +282,7 @@ function TextFormatFloatingToolbar({
 
           <TextAlignPicker
             buttonClassName="popup-item spaced"
-            tooltip="Выравникание текста"
+            tooltip="Выравнивание текста"
             // blockType={blockType}
             editor={editor}
           />
