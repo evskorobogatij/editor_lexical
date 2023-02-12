@@ -8,7 +8,7 @@ import {
   ListNode,
 } from "@lexical/list";
 import React, { useCallback } from "react";
-import { MarkedListIcon } from "../../icons/MarkedList";
+import { MarkedListIcon } from "../../icons/MarkedList2";
 import { NumberListIcon } from "../../icons/NumberList";
 import { DropDown } from "../DropDown";
 import classes from "./ListTypePicker.module.scss";
