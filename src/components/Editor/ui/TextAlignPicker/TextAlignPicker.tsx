@@ -5,15 +5,15 @@ import {
   OUTDENT_CONTENT_COMMAND,
 } from "lexical";
 import React, { useCallback } from "react";
-import { AlignCenterIcon } from "../../icons/AlignCenter";
+import { AlignCenterIcon } from "../../icons/AlignCenter2";
 import { AlignLeftIcon } from "../../icons/AlignLeft2";
-import { AlignRightIcon } from "../../icons/AlignRight";
+import { AlignRightIcon } from "../../icons/AlignRight2";
 import { DropDown } from "../DropDown";
 import { Devider } from "../../../Divider";
 
 import classes from "./TextAlignPicker.module.scss";
-import { LeftParagraphIcon } from "../../icons/LeftParagraphIcon";
-import { RightParagraphIcon } from "../../icons/RightParagraphIcon";
+import { LeftParagraphIcon } from "../../icons/LeftParagraphIcon2";
+import { RightParagraphIcon } from "../../icons/RightParagraphIcon2";
 import { ToolbarButton } from "../../../ToolbarButton";
 
 interface TextAlignPickerProps {

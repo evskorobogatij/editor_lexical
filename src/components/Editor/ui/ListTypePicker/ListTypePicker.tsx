@@ -9,13 +9,13 @@ import {
 } from "@lexical/list";
 import React, { useCallback } from "react";
 import { MarkedListIcon } from "../../icons/MarkedList2";
-import { NumberListIcon } from "../../icons/NumberList";
+import { NumberListIcon } from "../../icons/NumberList2";
 import { DropDown } from "../DropDown";
 import classes from "./ListTypePicker.module.scss";
 import type { ListType } from "../../plugins/FloatingTextFormatToolbarPlugin";
 import clsx from "clsx";
 import { ToolbarButton } from "../../../ToolbarButton";
-import { CheckListIcon } from "../../icons/CheckList";
+import { CheckListIcon } from "../../icons/CheckList2";
 
 interface ListTypePickerProps {
   buttonClassName: string;
