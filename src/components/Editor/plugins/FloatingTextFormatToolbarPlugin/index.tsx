@@ -50,7 +50,6 @@ import { BoldIcon } from "../../icons/Bold";
 import { ItalicIcon } from "../../icons/Italic";
 import { UnderlineIcon } from "../../icons/Underline";
 import { StrikethroughIcon } from "../../icons/Strikethrough";
-import { CheckListIcon } from "../../icons/CheckList";
 import { LinkIcon } from "../../icons/LinkIcon";
 import { Devider } from "../../../Divider";
 import ColorPicker from "../../ui/ColorPicker/ColorPicker";
@@ -107,12 +106,6 @@ function TextFormatFloatingToolbar({
       editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
     }
   }, [editor, isLink]);
-
-  const insertCheckList = useCallback(() => {
-    if (listType !== "check")
-      editor.dispatchCommand(INSERT_CHECK_LIST_COMMAND, undefined);
-    else editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
-  }, [editor, listType]);
 
   const applyStyleText = useCallback(
     (styles: Record<string, string>) => {
@@ -300,17 +293,6 @@ function TextFormatFloatingToolbar({
             editor={editor}
             isList={isList}
             listType={listType}
-          />
-
-          <ToolbarButton
-            handleClick={insertCheckList}
-            className={
-              "popup-item spaced " +
-              (isList && listType === "check" ? "active" : "")
-            }
-            ariaLabeles="Insert check list"
-            icon={<CheckListIcon />}
-            tooltip={"Чек-лист"}
           />
 
           <Devider />

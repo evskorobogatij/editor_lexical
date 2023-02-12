@@ -14,6 +14,8 @@ import { DropDown } from "../DropDown";
 import classes from "./ListTypePicker.module.scss";
 import type { ListType } from "../../plugins/FloatingTextFormatToolbarPlugin";
 import clsx from "clsx";
+import { ToolbarButton } from "../../../ToolbarButton";
+import { CheckListIcon } from "../../icons/CheckList";
 
 interface ListTypePickerProps {
   buttonClassName: string;
@@ -43,6 +45,12 @@ export const ListTypePicker: React.FC<ListTypePickerProps> = ({
     else editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
   }, [editor, listType]);
 
+  const insertCheckList = useCallback(() => {
+    if (listType !== "check")
+      editor.dispatchCommand(INSERT_CHECK_LIST_COMMAND, undefined);
+    else editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
+  }, [editor, listType]);
+
   return (
     <DropDown
       icon={<MarkedListIcon />}
@@ -51,28 +59,42 @@ export const ListTypePicker: React.FC<ListTypePickerProps> = ({
     >
       <div className={classes.listTypePicker}>
         {/* (isList && listType === "number" ? "active" : "") */}
-        <button
-          onClick={insertNumberList}
+        <ToolbarButton
+          handleClick={insertNumberList}
           className={clsx(
             classes.listTypePicker_item,
             isList && listType === "number" && classes.active
           )}
-          aria-label="Insert list"
-        >
-          <NumberListIcon />
-        </button>
+          ariaLabeles="Insert list"
+          icon={<NumberListIcon />}
+          tooltip={"Нумированый список"}
+          tooltipType={"bottom"}
+        />
 
         {/* (isList && listType === "bullet" ? "active" : "") */}
-        <button
-          onClick={insertMarkedList}
+        <ToolbarButton
+          handleClick={insertMarkedList}
           className={clsx(
             classes.listTypePicker_item,
             isList && listType === "bullet" && classes.active
           )}
-          aria-label="Insert bulled list"
-        >
-          <MarkedListIcon />
-        </button>
+          ariaLabeles="Insert bulled list"
+          icon={<MarkedListIcon />}
+          tooltip={"Маркированый список"}
+          tooltipType={"bottom"}
+        />
+
+        <ToolbarButton
+          handleClick={insertCheckList}
+          className={clsx(
+            classes.listTypePicker_item,
+            isList && listType === "check" && classes.active
+          )}
+          ariaLabeles="Insert check list"
+          icon={<CheckListIcon />}
+          tooltip={"Чек-лист"}
+          tooltipType={"bottom"}
+        />
       </div>
     </DropDown>
   );
