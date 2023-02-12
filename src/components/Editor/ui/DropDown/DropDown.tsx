@@ -10,6 +10,7 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import classes from "./DropDown.module.scss";
 import { ArrowDown } from "../../icons/ArrowDown";
+import { Tooltip } from "../../../Tooltip";
 
 type DropDownContextType = {
   registerItem: (ref: React.RefObject<HTMLButtonElement>) => void;
@@ -141,6 +142,7 @@ export default function DropDown({
   icon,
   children,
   stopCloseOnClickSelf,
+  tooltip,
 }: {
   disabled?: boolean;
   buttonAriaLabel?: string;
@@ -150,10 +152,14 @@ export default function DropDown({
   buttonLabel?: string;
   children: ReactNode;
   stopCloseOnClickSelf?: boolean;
+  tooltip?: string;
 }): JSX.Element {
   const dropDownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [showDropDown, setShowDropDown] = useState(false);
+
+  const tooltipRef = useRef<HTMLDivElement>(null);
+  const [showTooltip, setShowTootip] = useState(false);
 
   const handleClose = () => {
     setShowDropDown(false);
@@ -175,6 +181,21 @@ export default function DropDown({
       )}px`;
     }
   }, [dropDownRef, buttonRef, showDropDown]);
+
+  useEffect(() => {
+    const button = buttonRef.current;
+    const tooltip = tooltipRef.current;
+
+    if (showTooltip && button !== null && tooltip !== null) {
+      const { top, left, width } = button.getBoundingClientRect();
+      const { width: tooltipWidth } = tooltip.getBoundingClientRect();
+      tooltip.style.top = `${top - 38}px`;
+      tooltip.style.left = `${Math.min(
+        left - tooltipWidth / 2 + width / 2,
+        window.innerWidth - tooltip.offsetWidth - 20
+      )}px`;
+    }
+  }, [tooltipRef, buttonRef, showTooltip]);
 
   useEffect(() => {
     const button = buttonRef.current;
@@ -201,6 +222,14 @@ export default function DropDown({
     }
   }, [dropDownRef, buttonRef, showDropDown, stopCloseOnClickSelf]);
 
+  const handleMouseEnter = () => {
+    setShowTootip(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowTootip(false);
+  };
+
   return (
     <>
       <button
@@ -210,6 +239,8 @@ export default function DropDown({
         style={{ alignItems: "center" }}
         onClick={() => setShowDropDown(!showDropDown)}
         ref={buttonRef}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         {/* {buttonIconClassName && <span className={buttonIconClassName} />} */}
         {icon}
@@ -218,6 +249,13 @@ export default function DropDown({
         )}
         <ArrowDown />
       </button>
+
+      {showTooltip &&
+        tooltip !== undefined &&
+        createPortal(
+          <Tooltip tooltipRef={tooltipRef} text={tooltip ?? ""} />,
+          document.body
+        )}
 
       {showDropDown &&
         createPortal(

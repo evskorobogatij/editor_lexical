@@ -59,6 +59,7 @@ import { BlockTypePicker } from "../../ui/BlockTypePicker";
 import { TextAlignPicker } from "../../ui/TextAlignPicker";
 import { ListTypePicker } from "../../ui/ListTypePicker";
 import clsx from "clsx";
+import { ToolbarButton } from "../../../ToolbarButton";
 
 export type ListType = "number" | "bullet" | "check";
 
@@ -223,47 +224,50 @@ function TextFormatFloatingToolbar({
           <BlockTypePicker
             buttonClassName="popup-item spaced"
             blockType={blockType}
+            tooltip={"Заголовки"}
             editor={editor}
           />
 
           <Devider />
-          <button
-            onClick={() => {
+          <ToolbarButton
+            handleClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
             }}
             className={"popup-item spaced " + (isBold ? "active" : "")}
-            aria-label="Format text as bold"
-          >
-            {/* <i className="format bold" />{" "} */}
-            <BoldIcon />
-          </button>
-          <button
-            onClick={() => {
+            ariaLabeles="Format text as bold"
+            icon={<BoldIcon />}
+            tooltip="Жирный"
+          />
+
+          <ToolbarButton
+            handleClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
             }}
             className={"popup-item spaced " + (isItalic ? "active" : "")}
-            aria-label="Format text as italics"
-          >
-            <ItalicIcon />
-          </button>
-          <button
-            onClick={() => {
+            ariaLabeles="Format text as italics"
+            icon={<ItalicIcon />}
+            tooltip={"Курсив"}
+          />
+
+          <ToolbarButton
+            handleClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
             }}
             className={"popup-item spaced " + (isUnderline ? "active" : "")}
-            aria-label="Format text to underlined"
-          >
-            <UnderlineIcon />
-          </button>
-          <button
-            onClick={() => {
+            ariaLabeles="Format text to underlined"
+            icon={<UnderlineIcon />}
+            tooltip={"Подчеркнутый"}
+          />
+
+          <ToolbarButton
+            handleClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
             }}
             className={"popup-item spaced " + (isStrikethrough ? "active" : "")}
-            aria-label="Format text with a strikethrough"
-          >
-            <StrikethroughIcon />
-          </button>
+            ariaLabeles="Format text with a strikethrough"
+            icon={<StrikethroughIcon />}
+            tooltip={"Перечеркнутый"}
+          />
 
           <Devider />
 
@@ -280,40 +284,43 @@ function TextFormatFloatingToolbar({
             clearFontColor={onClearFontColor}
             // onChange={onFontColorSelect}
             title="text color"
+            tooltip="Цвета текста и фона"
           />
 
           <TextAlignPicker
             buttonClassName="popup-item spaced"
+            tooltip="Выравникание текста"
             // blockType={blockType}
             editor={editor}
           />
 
           <ListTypePicker
             buttonClassName={clsx("popup-item spaced", isList && "active")}
+            tooltip="Списки"
             editor={editor}
             isList={isList}
             listType={listType}
           />
 
-          <button
-            onClick={insertCheckList}
+          <ToolbarButton
+            handleClick={insertCheckList}
             className={
               "popup-item spaced " +
               (isList && listType === "check" ? "active" : "")
             }
-            aria-label="Insert check list"
-          >
-            <CheckListIcon />
-          </button>
+            ariaLabeles="Insert check list"
+            icon={<CheckListIcon />}
+            tooltip={"Чек-лист"}
+          />
 
           <Devider />
-          <button
-            onClick={insertLink}
+          <ToolbarButton
+            handleClick={insertLink}
             className={"popup-item spaced "}
-            aria-label="Insert link"
-          >
-            <LinkIcon />
-          </button>
+            ariaLabeles="Insert link"
+            icon={<LinkIcon />}
+            tooltip={"Ссылка"}
+          />
         </>
       )}
       {/* <button

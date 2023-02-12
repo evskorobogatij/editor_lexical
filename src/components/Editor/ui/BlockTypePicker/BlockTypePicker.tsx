@@ -25,12 +25,14 @@ interface BlockTypePickerProps {
   blockType: string;
   disabled?: boolean;
   editor: LexicalEditor;
+  tooltip?: string;
 }
 
 export const BlockTypePicker: FC<BlockTypePickerProps> = ({
   buttonClassName,
   editor,
   blockType,
+  tooltip,
   disabled = false,
 }) => {
   const formatParagraph = () => {
@@ -90,6 +92,7 @@ export const BlockTypePicker: FC<BlockTypePickerProps> = ({
       icon={<NormalTextIcon />}
       disabled={disabled}
       stopCloseOnClickSelf={true}
+      tooltip={tooltip}
     >
       <div className={classes.blockTypePicker} style={{ width: "200px" }}>
         <div className={classes.blockTypePickerMenu}>

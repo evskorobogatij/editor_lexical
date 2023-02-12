@@ -1,0 +1,12 @@
+.tooltip {
+    z-index: 15;
+    display: block;
+    position: fixed;
+    box-shadow: 0 12px 28px #0003, 0 2px 4px #0000001a, inset 0 0 0 1px #ffffff80;
+    border-radius: 8px;
+    // min-height: 28px;
+    background-color: #2f3136;
+    color: white;
+    padding: 4px 8px;
+    font-size: 14px;
+}

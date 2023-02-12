@@ -21,6 +21,7 @@ interface ColorPickerProps {
   onBgColorChange?: (color: string) => void;
   clearFontColor?: () => void;
   title?: string;
+  tooltip?: string;
 }
 
 const mainTextColors = [

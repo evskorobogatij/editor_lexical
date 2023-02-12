@@ -21,12 +21,14 @@ interface ListTypePickerProps {
   editor: LexicalEditor;
   isList: boolean;
   listType: ListType | undefined;
+  tooltip?: string;
 }
 export const ListTypePicker: React.FC<ListTypePickerProps> = ({
   buttonClassName,
   editor,
   isList,
   listType,
+  tooltip,
   disabled = false,
 }) => {
   const insertNumberList = useCallback(() => {
@@ -42,7 +44,11 @@ export const ListTypePicker: React.FC<ListTypePickerProps> = ({
   }, [editor, listType]);
 
   return (
-    <DropDown icon={<MarkedListIcon />} buttonClassName={buttonClassName}>
+    <DropDown
+      icon={<MarkedListIcon />}
+      buttonClassName={buttonClassName}
+      tooltip={tooltip}
+    >
       <div className={classes.listTypePicker}>
         {/* (isList && listType === "number" ? "active" : "") */}
         <button

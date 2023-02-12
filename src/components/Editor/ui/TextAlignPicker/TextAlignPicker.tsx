@@ -19,10 +19,12 @@ interface TextAlignPickerProps {
   buttonClassName: string;
   disabled?: boolean;
   editor: LexicalEditor;
+  tooltip?: string;
 }
 export const TextAlignPicker: React.FC<TextAlignPickerProps> = ({
   buttonClassName,
   editor,
+  tooltip,
   disabled = false,
 }) => {
   const formatTextLeftAlign = useCallback(() => {
@@ -46,7 +48,11 @@ export const TextAlignPicker: React.FC<TextAlignPickerProps> = ({
   }, [editor]);
 
   return (
-    <DropDown buttonClassName={buttonClassName} icon={<AlignLeftIcon />}>
+    <DropDown
+      buttonClassName={buttonClassName}
+      tooltip={tooltip}
+      icon={<AlignLeftIcon />}
+    >
       <div className={classes.textAlignPicker}>
         <button
           onClick={formatTextLeftAlign}
