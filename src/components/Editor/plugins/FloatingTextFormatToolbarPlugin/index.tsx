@@ -46,11 +46,11 @@ import { getDOMRangeRect } from "../../utils/getDOMRangeRect";
 import { getSelectedNode } from "../../utils/getSelectedNode";
 import { setFloatingElemPosition } from "../../utils/setFloatingElemPosition";
 
-import { BoldIcon } from "../../icons/Bold";
-import { ItalicIcon } from "../../icons/Italic";
-import { UnderlineIcon } from "../../icons/Underline";
-import { StrikethroughIcon } from "../../icons/Strikethrough";
-import { LinkIcon } from "../../icons/LinkIcon";
+import { BoldIcon } from "../../icons/Bold2";
+import { ItalicIcon } from "../../icons/Italic2";
+import { UnderlineIcon } from "../../icons/Underline2";
+import { StrikethroughIcon } from "../../icons/Strikethrough2";
+import { LinkIcon } from "../../icons/LinkIcon2";
 import { Devider } from "../../../Divider";
 import ColorPicker from "../../ui/ColorPicker/ColorPicker";
 import { FontColorIcon } from "../../icons/FontColorIcon";
