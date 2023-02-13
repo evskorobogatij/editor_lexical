@@ -17,6 +17,7 @@ import ComponentPickerPlugin from "./plugins/ComponentPickerPlugin";
 import FloatingTextFormatToolbarPlugin from "./plugins/FloatingTextFormatToolbarPlugin";
 import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
 import AutocompletePlugin from "./plugins/AutocomplatePlugin";
+import { DraggableBlockPlugin } from "./plugins/DraggableBlockPlugin";
 
 import "./style.css";
 import { editorConfig } from "./config";
@@ -115,6 +116,7 @@ export const Editor = forwardRef<EditorState, EditorProps>(
                     anchorElem={floatingAnchorElem}
                   />
                   <FloatingLinkEditorPlugin anchorElem={floatingAnchorElem} />
+                  <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
                 </>
               )}
               <AutoLinkPlugin />
