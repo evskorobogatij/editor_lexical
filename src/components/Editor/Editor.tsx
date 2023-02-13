@@ -38,6 +38,7 @@ function Placeholder() {
 
 interface EditorProps {
   initialText: string;
+  draggableBlocks?: boolean;
 }
 
 interface LoadingDataPluginsProps {
@@ -57,7 +58,7 @@ const LoadingDataPlugins = ({ data }: LoadingDataPluginsProps): null => {
 };
 
 export const Editor = forwardRef<EditorState, EditorProps>(
-  ({ initialText }, editorStateRef) => {
+  ({ initialText, draggableBlocks = false }, editorStateRef) => {
     const [floatingAnchorElem, setFloatingAnchorElem] =
       useState<HTMLDivElement | null>(null);
 
@@ -116,7 +117,9 @@ export const Editor = forwardRef<EditorState, EditorProps>(
                     anchorElem={floatingAnchorElem}
                   />
                   <FloatingLinkEditorPlugin anchorElem={floatingAnchorElem} />
-                  <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
+                  {draggableBlocks && (
+                    <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
+                  )}
                 </>
               )}
               <AutoLinkPlugin />

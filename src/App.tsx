@@ -18,10 +18,9 @@ function App() {
     console.log(JSON.stringify(editorRef.current?.toJSON()));
   };
 
-
   const handleDemoData = () => {
-    setTextData(demoTest)
-  }
+    setTextData(demoTest);
+  };
 
   return (
     // <div className="App">
@@ -37,7 +36,7 @@ function App() {
         </button>
       </div>
 
-      <Editor ref={editorRef} initialText={textData} />
+      <Editor ref={editorRef} initialText={textData} draggableBlocks={true} />
     </>
 
     // </div>
