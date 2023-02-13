@@ -30,7 +30,7 @@ import { MarkdownPlugin } from "./plugins/MarkdownShortcutPlugin";
 
 function Placeholder() {
   return (
-    <div className="editor-placeholder">
+    <div className="editor-placeholder" style={{ paddingLeft: "24px" }}>
       Введите текст (ПОДСКАЗКА: Нажмите / )
     </div>
   );

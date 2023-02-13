@@ -351,9 +351,9 @@ function useDraggableBlockMenu(
         draggable={true}
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
-        style={{ zIndex: 10 }}
+        style={{ backgroundImage: `url(${DragIcon})` }}
       >
-        <MovedIcon />
+        {/* <MovedIcon /> */}
         {/* <img src={DragIcon} style={{ zIndex: -1 }} /> */}
         {/* <div className={isEditable ? 'icon' : ''} /> */}
       </div>
