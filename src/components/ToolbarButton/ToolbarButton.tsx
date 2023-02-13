@@ -66,7 +66,11 @@ export const ToolbarButton: React.FC<ToolbarBottonProps> = ({
       {showTooltip &&
         tooltip !== undefined &&
         createPortal(
-          <Tooltip tooltipRef={tooltipRef} text={tooltip ?? ""} />,
+          <Tooltip
+            tooltipRef={tooltipRef}
+            text={tooltip ?? ""}
+            tooltipType={tooltipType}
+          />,
           document.body
         )}
     </>

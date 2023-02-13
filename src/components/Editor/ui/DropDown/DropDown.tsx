@@ -240,7 +240,7 @@ export default function DropDown({
         onClick={() => setShowDropDown(!showDropDown)}
         ref={buttonRef}
         onMouseEnter={handleMouseEnter}
-        // onMouseLeave={handleMouseLeave}
+        onMouseLeave={handleMouseLeave}
       >
         {/* {buttonIconClassName && <span className={buttonIconClassName} />} */}
         {icon}
