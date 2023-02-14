@@ -54,6 +54,7 @@ interface EditorProps {
   draggableBlocks?: boolean;
   onChange?: (data: string) => void;
   onChangeAsHTML?: (html: string) => void;
+  onBlur?: () => void;
 }
 
 interface LoadingDataPluginsProps {
@@ -79,6 +80,7 @@ export const Editor = forwardRef<EditorState, EditorProps>(
       htmlSource,
       onChange,
       onChangeAsHTML,
+      onBlur,
       draggableBlocks = false,
     },
     editorStateRef
@@ -126,7 +128,7 @@ export const Editor = forwardRef<EditorState, EditorProps>(
         <SharedAutocompleteContext>
           <div className="editor-container">
             {/* <ToolbarPlugin /> */}
-            <div className="editor-inner">
+            <div className="editor-inner" onBlur={onBlur}>
               <RichTextPlugin
                 contentEditable={
                   <div ref={onRef}>

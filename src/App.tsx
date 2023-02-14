@@ -54,6 +54,7 @@ function App() {
         draggableBlocks={isBlockDraggable}
         // onChange={(s) => console.log(s)}
         // onChangeAsHTML={(html) => console.log(html)}
+        // onBlur={() => console.log("DETECT LOST FOCUS")}
       />
     </>
 
