@@ -30,10 +30,11 @@ import {
   EditorState,
   $applyNodeReplacement,
   $setSelection,
+  LexicalEditor,
 } from "lexical";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { MarkdownPlugin } from "./plugins/MarkdownShortcutPlugin";
-import { $generateNodesFromDOM } from "@lexical/html";
+import { $generateHtmlFromNodes } from "@lexical/html";
 import { LoadingHTMLData } from "./plugins/LoadingHTMLData";
 
 function Placeholder() {
@@ -44,10 +45,15 @@ function Placeholder() {
   );
 }
 
+/**
+ * Интерфейс для редактора
+ */
 interface EditorProps {
   initialText?: string;
   htmlSource?: string;
   draggableBlocks?: boolean;
+  onChange?: (data: string) => void;
+  onChangeAsHTML?: (html: string) => void;
 }
 
 interface LoadingDataPluginsProps {
@@ -67,7 +73,16 @@ const LoadingDataPlugins = ({ data }: LoadingDataPluginsProps): null => {
 };
 
 export const Editor = forwardRef<EditorState, EditorProps>(
-  ({ initialText, htmlSource, draggableBlocks = false }, editorStateRef) => {
+  (
+    {
+      initialText,
+      htmlSource,
+      onChange,
+      onChangeAsHTML,
+      draggableBlocks = false,
+    },
+    editorStateRef
+  ) => {
     const [floatingAnchorElem, setFloatingAnchorElem] =
       useState<HTMLDivElement | null>(null);
 
@@ -80,10 +95,23 @@ export const Editor = forwardRef<EditorState, EditorProps>(
     const ref = useRef<EditorState>(null);
 
     // console.log(editorStateRef.current)
-    const handleEditorChange = (editorState: EditorState) => {
+    const handleEditorChange = (
+      editorState: EditorState,
+      editor: LexicalEditor
+    ) => {
       if (editorStateRef !== null) {
         // @ts-ignore
         editorStateRef.current = editorState;
+        if (onChange) {
+          onChange(JSON.stringify(editorState.toJSON()));
+        }
+      }
+
+      if (onChangeAsHTML) {
+        editor.update(() => {
+          const s = $generateHtmlFromNodes(editor, null);
+          onChangeAsHTML(s);
+        });
       }
     };
 

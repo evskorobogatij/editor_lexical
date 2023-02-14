@@ -49,9 +49,11 @@ function App() {
 
       <Editor
         ref={editorRef}
-        htmlSource={'<h1>Testting HTML</h1>'}
-        // initialText={"<h1>Test data</h1>"}
+        htmlSource={"<h1>Testting HTML</h1>"}
+        // initialText={textData}
         draggableBlocks={isBlockDraggable}
+        // onChange={(s) => console.log(s)}
+        // onChangeAsHTML={(html) => console.log(html)}
       />
     </>
 
