@@ -24,9 +24,17 @@ import { editorConfig } from "./config";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import FloatingLinkEditorPlugin from "./plugins/FloatingLinkEditorPlugin";
 import { SharedAutocompleteContext } from "./context/SharedAutocompleteContext";
-import type { EditorState } from "lexical";
+import {
+  $getRoot,
+  $insertNodes,
+  EditorState,
+  $applyNodeReplacement,
+  $setSelection,
+} from "lexical";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { MarkdownPlugin } from "./plugins/MarkdownShortcutPlugin";
+import { $generateNodesFromDOM } from "@lexical/html";
+import { LoadingHTMLData } from "./plugins/LoadingHTMLData";
 
 function Placeholder() {
   return (
@@ -37,7 +45,8 @@ function Placeholder() {
 }
 
 interface EditorProps {
-  initialText: string;
+  initialText?: string;
+  htmlSource?: string;
   draggableBlocks?: boolean;
 }
 
@@ -58,7 +67,7 @@ const LoadingDataPlugins = ({ data }: LoadingDataPluginsProps): null => {
 };
 
 export const Editor = forwardRef<EditorState, EditorProps>(
-  ({ initialText, draggableBlocks = false }, editorStateRef) => {
+  ({ initialText, htmlSource, draggableBlocks = false }, editorStateRef) => {
     const [floatingAnchorElem, setFloatingAnchorElem] =
       useState<HTMLDivElement | null>(null);
 
@@ -81,7 +90,10 @@ export const Editor = forwardRef<EditorState, EditorProps>(
     return (
       // @ts-ignore
       <LexicalComposer
-        initialConfig={{ ...editorConfig, editorState: initialText }}
+        initialConfig={{
+          ...editorConfig,
+          ...(initialText && { editorState: initialText }),
+        }}
       >
         <SharedAutocompleteContext>
           <div className="editor-container">
@@ -109,7 +121,8 @@ export const Editor = forwardRef<EditorState, EditorProps>(
               <MarkdownPlugin />
               {/* <MarkdownShortcutPlugin transformers={TRANSFORMERS} /> */}
               <AutocompletePlugin />
-              <LoadingDataPlugins data={initialText} />
+              {initialText && <LoadingDataPlugins data={initialText} />}
+              {htmlSource && <LoadingHTMLData html={htmlSource} />}
 
               {floatingAnchorElem && (
                 <>

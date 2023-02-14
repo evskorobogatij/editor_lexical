@@ -49,7 +49,8 @@ function App() {
 
       <Editor
         ref={editorRef}
-        initialText={textData}
+        htmlSource={'<h1>Testting HTML</h1>'}
+        // initialText={"<h1>Test data</h1>"}
         draggableBlocks={isBlockDraggable}
       />
     </>
