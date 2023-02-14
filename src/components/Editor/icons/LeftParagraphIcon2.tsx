@@ -9,35 +9,35 @@ export const LeftParagraphIcon = () => (
     <path
       d="M6 6.66675H14"
       stroke="white"
-      stroke-width="1.3"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M2 4H14"
       stroke="white"
-      stroke-width="1.3"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M6 9.33325H14"
       stroke="white"
-      stroke-width="1.3"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M2 12H14"
       stroke="white"
-      stroke-width="1.3"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M2 6L3.92929 7.92929C3.96834 7.96834 3.96834 8.03166 3.92929 8.07071L2 10"
       stroke="white"
-      stroke-linecap="round"
+      strokeLinecap="round"
     />
   </svg>
 );

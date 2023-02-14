@@ -9,23 +9,23 @@ export const NumberListIcon = () => (
     <path
       d="M5 4H14"
       stroke="white"
-      stroke-width="1.3"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M5 8H14"
       stroke="white"
-      stroke-width="1.3"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M5 12H14"
       stroke="white"
-      stroke-width="1.3"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M2.2 7.30005C2.14477 7.30005 2.1 7.25528 2.1 7.20005V4.05536C2.1 3.98263 2.02483 3.93423 1.95862 3.96432L1.14138 4.3358C1.07517 4.36589 1 4.31749 1 4.24476V3.81014C1 3.77316 1.02041 3.7392 1.05306 3.72184L1.8245 3.31175C1.83895 3.30407 1.85507 3.30005 1.87144 3.30005H2.7C2.75523 3.30005 2.8 3.34482 2.8 3.40005V7.20005C2.8 7.25528 2.75523 7.30005 2.7 7.30005H2.2Z"

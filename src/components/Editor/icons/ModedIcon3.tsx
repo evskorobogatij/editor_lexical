@@ -9,44 +9,44 @@ export const MovedIcon = () => (
     <path
       d="M11.0002 8.99984C11.3684 8.99984 11.6668 8.70136 11.6668 8.33317C11.6668 7.96498 11.3684 7.6665 11.0002 7.6665C10.632 7.6665 10.3335 7.96498 10.3335 8.33317C10.3335 8.70136 10.632 8.99984 11.0002 8.99984Z"
       stroke="#979798"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M4.66667 8.99984C5.03486 8.99984 5.33333 8.70136 5.33333 8.33317C5.33333 7.96498 5.03486 7.6665 4.66667 7.6665C4.29848 7.6665 4 7.96498 4 8.33317C4 8.70136 4.29848 8.99984 4.66667 8.99984Z"
       stroke="#979798"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M11.0002 4.33333C11.3684 4.33333 11.6668 4.03486 11.6668 3.66667C11.6668 3.29848 11.3684 3 11.0002 3C10.632 3 10.3335 3.29848 10.3335 3.66667C10.3335 4.03486 10.632 4.33333 11.0002 4.33333Z"
       stroke="#979798"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M4.66667 4.33333C5.03486 4.33333 5.33333 4.03486 5.33333 3.66667C5.33333 3.29848 5.03486 3 4.66667 3C4.29848 3 4 3.29848 4 3.66667C4 4.03486 4.29848 4.33333 4.66667 4.33333Z"
       stroke="#979798"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M11.0002 13.6668C11.3684 13.6668 11.6668 13.3684 11.6668 13.0002C11.6668 12.632 11.3684 12.3335 11.0002 12.3335C10.632 12.3335 10.3335 12.632 10.3335 13.0002C10.3335 13.3684 10.632 13.6668 11.0002 13.6668Z"
       stroke="#979798"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M4.66667 13.6668C5.03486 13.6668 5.33333 13.3684 5.33333 13.0002C5.33333 12.632 5.03486 12.3335 4.66667 12.3335C4.29848 12.3335 4 12.632 4 13.0002C4 13.3684 4.29848 13.6668 4.66667 13.6668Z"
       stroke="#979798"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );

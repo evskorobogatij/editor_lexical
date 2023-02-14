@@ -10,7 +10,7 @@ export const ArrowDown = () => (
       d="M7 4L5 6L3 4H7Z"
       fill="#656F7D"
       stroke="#656F7D"
-      stroke-linejoin="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
