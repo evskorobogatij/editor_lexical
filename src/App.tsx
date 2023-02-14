@@ -9,6 +9,7 @@ function App() {
   const editorRef = useRef<EditorState>(null);
 
   const [textData, setTextData] = useState<string>(initial);
+  const [isBlockDraggable, setIsBlockDraggable] = useState(true);
 
   // const [editor] = useLexicalComposerContext();
 
@@ -36,7 +37,21 @@ function App() {
         </button>
       </div>
 
-      <Editor ref={editorRef} initialText={textData} draggableBlocks={true} />
+      <div style={{ marginLeft: "32px", display: "none" }}>
+        <input
+          type={"checkbox"}
+          id="movedBlock"
+          checked={isBlockDraggable}
+          onChange={(e) => setIsBlockDraggable(e.target.checked)}
+        />
+        <label htmlFor="movedBlock">Перемещаемые блоки</label>
+      </div>
+
+      <Editor
+        ref={editorRef}
+        initialText={textData}
+        draggableBlocks={isBlockDraggable}
+      />
     </>
 
     // </div>
