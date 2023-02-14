@@ -18,8 +18,8 @@ export const EditorWrapper: React.FC<EditorWrapperProps> = ({
     [editorRef.current]
   );
   useEffect(() => {
-    if (handleChange) {
-      handleChange(content);
+    if (handleChange && content !== undefined) {
+      handleChange(JSON.stringify(content));
     }
   }, [content]);
   return (
