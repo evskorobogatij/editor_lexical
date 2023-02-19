@@ -39,7 +39,7 @@ import { LoadingHTMLData } from "./plugins/LoadingHTMLData";
 
 function Placeholder() {
   return (
-    <div className="editor-placeholder" style={{ paddingLeft: "24px" }}>
+    <div className='editor-placeholder' style={{ paddingLeft: "24px" }}>
       Введите текст (ПОДСКАЗКА: Нажмите / )
     </div>
   );
@@ -55,6 +55,9 @@ interface EditorProps {
   onChange?: (data: string) => void;
   onChangeAsHTML?: (html: string) => void;
   onBlur?: () => void;
+  limit?: number;
+  onWordsCountChange?: (count: number) => void
+  onCharactersCountChange?: (count: number) => void
 }
 
 interface LoadingDataPluginsProps {
@@ -82,6 +85,9 @@ export const Editor = forwardRef<EditorState, EditorProps>(
       onChangeAsHTML,
       onBlur,
       draggableBlocks = false,
+      limit,
+      onWordsCountChange,
+      onCharactersCountChange
     },
     editorStateRef
   ) => {
@@ -93,6 +99,8 @@ export const Editor = forwardRef<EditorState, EditorProps>(
         setFloatingAnchorElem(_floatingAnchorElem);
       }
     };
+    const [words, setWords] = useState(0)
+    const [chars, setChars] = useState(0)
 
     const ref = useRef<EditorState>(null);
 
@@ -104,10 +112,20 @@ export const Editor = forwardRef<EditorState, EditorProps>(
       if (editorStateRef !== null) {
         // @ts-ignore
         editorStateRef.current = editorState;
+        console.log(editorState.toJSON());
+        // editorState.toJSON().root.children.forEach((v)=>v.type)
         if (onChange) {
           onChange(JSON.stringify(editorState.toJSON()));
         }
       }
+
+      editor.update(() => {
+        const s = $generateHtmlFromNodes(editor, null);
+        const parsed = s.replace(/(<.*?>)/g, " ").replace(/\s+/g," ");
+
+        // console.log("PARSED", parsed);
+        // console.log(`Words: ${parsed.split(' ').length}; Chars: ${parsed.length}`)
+      });
 
       if (onChangeAsHTML) {
         editor.update(() => {
@@ -126,13 +144,13 @@ export const Editor = forwardRef<EditorState, EditorProps>(
         }}
       >
         <SharedAutocompleteContext>
-          <div className="editor-container">
+          <div className='editor-container' onBlur={onBlur}>
             {/* <ToolbarPlugin /> */}
-            <div className="editor-inner" onBlur={onBlur}>
+            <div className='editor-inner'>
               <RichTextPlugin
                 contentEditable={
                   <div ref={onRef}>
-                    <ContentEditable className="editor-input" />
+                    <ContentEditable className='editor-input' />
                   </div>
                 }
                 placeholder={<Placeholder />}

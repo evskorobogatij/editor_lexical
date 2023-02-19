@@ -27,12 +27,12 @@ function App() {
     // <div className="App">
     //
     <>
-      <div className="app-title">
+      <div className='app-title'>
         <h1>Text Editor test</h1>
-        <button className="btn-title btn-secondary" onClick={handleDemoData}>
+        <button className='btn-title btn-secondary' onClick={handleDemoData}>
           Пример
         </button>
-        <button className="btn-title" onClick={handleTrySave}>
+        <button className='btn-title' onClick={handleTrySave}>
           Сохранить (TEST)
         </button>
       </div>
@@ -40,21 +40,23 @@ function App() {
       <div style={{ marginLeft: "32px", display: "none" }}>
         <input
           type={"checkbox"}
-          id="movedBlock"
+          id='movedBlock'
           checked={isBlockDraggable}
           onChange={(e) => setIsBlockDraggable(e.target.checked)}
         />
-        <label htmlFor="movedBlock">Перемещаемые блоки</label>
+        <label htmlFor='movedBlock'>Перемещаемые блоки</label>
       </div>
 
       <Editor
         ref={editorRef}
-        htmlSource={"<h1>Testting HTML</h1>"}
+        htmlSource={
+          '<p class="editor-paragraph" dir="ltr"><span>tst</span><span style="color: red;"> sfs</span></p>'
+        }
         // initialText={textData}
         draggableBlocks={isBlockDraggable}
         // onChange={(s) => console.log(s)}
-        // onChangeAsHTML={(html) => console.log(html)}
-        // onBlur={() => console.log("DETECT LOST FOCUS")}
+        onChangeAsHTML={(html) => console.log(html)}
+        onBlur={() => console.log("DETECT LOST FOCUS")}
       />
     </>
 
