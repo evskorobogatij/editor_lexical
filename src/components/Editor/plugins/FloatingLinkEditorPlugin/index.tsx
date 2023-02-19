@@ -66,6 +66,13 @@ function FloatingLinkEditor({
       } else {
         setLinkUrl("");
       }
+
+      if (
+        ($isLinkNode(parent) && parent.getURL() === "") ||
+        ($isLinkNode(node) && node.getURL() === "")
+      ) {
+        setEditMode(true);
+      }
     }
     const editorElem = editorRef.current;
     const nativeSelection = window.getSelection();
@@ -170,9 +177,13 @@ function FloatingLinkEditor({
     });
   }, [editor, updateLinkEditor]);
 
-  useEffect(() => {
+  React.useLayoutEffect(() => {
     if (isEditMode && inputRef.current) {
-      inputRef.current.focus();
+      setTimeout(() => {
+        if (inputRef.current) inputRef.current.focus();
+      }, 4);
+
+      console.log(inputRef.current);
     }
   }, [isEditMode]);
 
@@ -187,7 +198,12 @@ function FloatingLinkEditor({
   const handleTrySave = () => {
     if (lastSelection !== null) {
       if (linkUrl !== "") {
-        editor.dispatchCommand(TOGGLE_LINK_COMMAND, sanitizeUrl(linkUrl));
+        editor.update(() => {
+          const selection = $getSelection();
+          const node = selection?.getNodes()[0];
+          if (node) node.setTextContent(`${existText}`);
+          editor.dispatchCommand(TOGGLE_LINK_COMMAND, sanitizeUrl(linkUrl));
+        });
       }
     }
 
@@ -195,25 +211,27 @@ function FloatingLinkEditor({
   };
 
   return (
-    <div ref={editorRef} className="link-editor">
+    <div ref={editorRef} className='link-editor'>
       {isEditMode ? (
         <>
           <input
             className={"input"}
             placeholder={"Название"}
             defaultValue={existText}
+            onChange={(e) => setExistText(e.target.value)}
           />
           <input
             ref={inputRef}
             className={"input"}
             placeholder={"Ссылка"}
             value={linkUrl}
+            // autoFocus
             onChange={(e) => {
               setLinkUrl(e.target.value);
             }}
           />
-          <div className="action-button-group">
-            <button className="action-button" onClick={handleTrySave}>
+          <div className='action-button-group'>
+            <button className='action-button' onClick={handleTrySave}>
               Сохранить
             </button>
             <button
@@ -226,11 +244,11 @@ function FloatingLinkEditor({
         </>
       ) : (
         <>
-          <div className="link-header">
-            <div className="title">{linkUrl}</div>
+          <div className='link-header'>
+            <div className='title'>{linkUrl}</div>
             <div
               role={"button"}
-              className="edit-btn"
+              className='edit-btn'
               tabIndex={0}
               onMouseDown={(event) => event.preventDefault()}
               onClick={handleEditMode}

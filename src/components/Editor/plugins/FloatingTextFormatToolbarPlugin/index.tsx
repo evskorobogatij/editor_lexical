@@ -101,7 +101,7 @@ function TextFormatFloatingToolbar({
 
   const insertLink = useCallback(() => {
     if (!isLink) {
-      editor.dispatchCommand(TOGGLE_LINK_COMMAND, "https://");
+      editor.dispatchCommand(TOGGLE_LINK_COMMAND, "");
     } else {
       editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
     }
