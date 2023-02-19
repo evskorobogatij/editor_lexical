@@ -4,6 +4,7 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import { eventFiles } from "@lexical/rich-text";
 import { mergeRegister } from "@lexical/utils";
 import {
+  $createParagraphNode,
   $getNearestNodeFromDOMNode,
   $getNodeByKey,
   $getRoot,
@@ -12,6 +13,7 @@ import {
   DRAGOVER_COMMAND,
   DROP_COMMAND,
   LexicalEditor,
+  TextNode,
 } from "lexical";
 import * as React from "react";
 import {
@@ -28,6 +30,8 @@ import { Rect } from "../../utils/rect";
 
 import { MovedIcon } from "../../icons/MovedIcon";
 import DragIcon from "../../icons/drag-icon.svg";
+import AddIcon from "../../icons/bg-plus.svg";
+import clsx from "clsx";
 
 const SPACE = 4;
 const TARGET_LINE_HALF_HEIGHT = 2;
@@ -141,6 +145,33 @@ function setMenuPosition(
     (parseInt(targetStyle.lineHeight, 10) - floatingElemRect.height) / 2 -
     anchorElementRect.top;
 
+  const left = SPACE + 20;
+
+  floatingElem.style.opacity = "1";
+  floatingElem.style.transform = `translate(${left}px, ${top}px)`;
+}
+
+function setPlusPosition(
+  targetElem: HTMLElement | null,
+  floatingElem: HTMLElement,
+  anchorElem: HTMLElement
+) {
+  if (!targetElem) {
+    floatingElem.style.opacity = "0";
+    floatingElem.style.transform = "translate(-10000px, -10000px)";
+    return;
+  }
+
+  const targetRect = targetElem.getBoundingClientRect();
+  const targetStyle = window.getComputedStyle(targetElem);
+  const floatingElemRect = floatingElem.getBoundingClientRect();
+  const anchorElementRect = anchorElem.getBoundingClientRect();
+
+  const top =
+    targetRect.top +
+    (parseInt(targetStyle.lineHeight, 10) - floatingElemRect.height) / 2 -
+    anchorElementRect.top;
+
   const left = SPACE;
 
   floatingElem.style.opacity = "1";
@@ -207,6 +238,7 @@ function useDraggableBlockMenu(
   const scrollerElem = anchorElem.parentElement;
 
   const menuRef = useRef<HTMLDivElement>(null);
+  const addRef = useRef<HTMLButtonElement>(null);
   const targetLineRef = useRef<HTMLDivElement>(null);
   const [draggableBlockElem, setDraggableBlockElem] =
     useState<HTMLElement | null>(null);
@@ -244,6 +276,9 @@ function useDraggableBlockMenu(
   useEffect(() => {
     if (menuRef.current) {
       setMenuPosition(draggableBlockElem, menuRef.current, anchorElem);
+    }
+    if (addRef.current) {
+      setPlusPosition(draggableBlockElem, addRef.current, anchorElem);
     }
   }, [anchorElem, draggableBlockElem]);
 
@@ -343,10 +378,39 @@ function useDraggableBlockMenu(
     hideTargetLine(targetLineRef.current);
   }
 
+  const handleTryAddBlock = () => {
+    const topLevelNodeKeys = getTopLevelNodeKeys(editor);
+    editor.update(() => {
+      let index = getCurrentIndex(topLevelNodeKeys.length);
+      console.log(index);
+      const key = topLevelNodeKeys[index];
+      const elem = editor.getElementByKey(key);
+      // console.log(elem);
+      const node = $getNodeByKey(key);
+
+      const newText = new TextNode("/");
+      const currentContent = node?.getTextContent();
+      if (currentContent === "") {
+        const newParagraph = $createParagraphNode();
+        newParagraph.append(newText);
+        node?.replace(newParagraph);
+        newParagraph.selectEnd();
+      } else {
+        const newParagraph = $createParagraphNode();
+        newParagraph.append(newText);
+        node?.insertAfter(newParagraph);
+        newParagraph.selectEnd();
+      }
+      // node?.insertAfter(plus)
+    });
+
+    // console.log(draggableBlockElem, anchorElem);
+  };
+
   return createPortal(
     <>
       <div
-        className="draggable-block-menu"
+        className='draggable-block-menu'
         ref={menuRef}
         draggable={true}
         onDragStart={onDragStart}
@@ -357,7 +421,15 @@ function useDraggableBlockMenu(
         {/* <img src={DragIcon} style={{ zIndex: -1 }} /> */}
         {/* <div className={isEditable ? 'icon' : ''} /> */}
       </div>
-      <div className="draggable-block-target-line" ref={targetLineRef} />
+
+      <button
+        ref={addRef}
+        className={clsx("sub_block_btn", "sub_block_add_btn")}
+        onClick={handleTryAddBlock}
+        style={{ backgroundImage: `url(${AddIcon})` }}
+      ></button>
+
+      <div className='draggable-block-target-line' ref={targetLineRef} />
     </>,
     anchorElem
   );
